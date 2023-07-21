@@ -1,11 +1,14 @@
 # Maps n Bags [Backend]
 
+## RUN
+> npm install
+> npm start
+
 ## Technologies
-- Docker
+<!-- - Docker -->
 - Node 18
 - Express
 - Typescript
-
 
 ### Misc
 - [TypeScript Playground](https://www.typescriptlang.org/play)

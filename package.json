@@ -1,10 +1,10 @@
 {
   "name": "maps-n-bags-backend",
   "version": "1.0.0",
-  "description": "- Docker\r - Node 18\r - Express\r - Typescript",
+  "description": "CSE 408 Software Development Project",
   "main": "index.js",
-  "type": "module",
   "scripts": {
+    "start": "nodemon --watch src/** --ext ts,json --ignore src/**/*.spec.ts --exec ts-node src/index.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,6 +13,12 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.4.2",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
   }
 }
