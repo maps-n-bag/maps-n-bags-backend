@@ -2,13 +2,13 @@
 
 ## RUN
 > npm install
-> npm start
+> npm run dev
 
 ## Technologies
 <!-- - Docker -->
 - Node 18
 - Express
-- Typescript
+- Typescript [NO]
 - Postgres (NeonDB)
   
 ### Misc
