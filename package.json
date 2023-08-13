@@ -1,27 +1,22 @@
 {
-  "name": "maps-n-bags-backend",
+  "name": "jobs",
   "version": "1.0.0",
-  "description": "CSE 408 Software Development Project",
-  "main": "src/index.js",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "build": "",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "express-promise-router": "^4.1.1",
-    "jsonwebtoken": "^9.0.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.5.1",
+    "pg-promise": "^10.7.9",
+    "mongoose": "^5.11.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
