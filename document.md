@@ -292,3 +292,32 @@ Retrieve reviews for a specific place.
     }
 ]
 ```
+# Get User Information
+```
+/user/?id=1
+```
+
+Retrieve information about a specific user.
+
+## Endpoint
+
+## Query Parameters
+
+| Parameter | Type   | Description       |
+|-----------|--------|-------------------|
+| id        | number | ID of the user    |
+
+## Response
+
+```json
+{
+    "username": "user2",
+    "first_name": "User",
+    "last_name": "Two",
+    "email": "user2@example.com",
+    "profile_pic": "https://picsum.photos/400",
+    "cover_pic": "https://picsum.photos/400"
+}
+```
+
+

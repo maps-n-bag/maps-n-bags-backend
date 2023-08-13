@@ -6,6 +6,7 @@ const event = require("./routes/event_route")
 const cors = require("cors")
 const place = require("./routes/place_route")
 const review = require("./routes/review_route")
+const user = require("./routes/user_route");
 
 
 app.use(express.json())
@@ -13,6 +14,7 @@ app.use(cors())
 app.use("/plan", plan)
 app.use("/event", event)
 app.use("/place", place)
+app.use("/user", user)
 app.use("/review", review)
 
 const port = process.env.PORT || 3000
