@@ -1,4 +1,7 @@
 # Get Plan Details
+```
+/event/distance/?plan_id=1
+```
 
 Retrieve details of a specific travel plan.
 
@@ -27,6 +30,9 @@ Retrieve details of a specific travel plan.
 }
 ```
 # Get Events by Plan ID
+```
+/event?plan_id=1
+```
 
 Retrieve a list of events for a specific travel plan.
 
@@ -98,6 +104,9 @@ Retrieve a list of events for a specific travel plan.
 }
 ```
 # Get Distance between Places by Plan ID
+```
+/event/distance/?plan_id=1
+```
 
 Retrieve a list of distances between places for a specific travel plan.
 
@@ -147,6 +156,9 @@ Retrieve a list of distances between places for a specific travel plan.
 }
 ```
 # Get Place Details by ID
+```
+/place/?id=5
+```
 
 Retrieve details of a specific place.
 
@@ -185,6 +197,9 @@ Retrieve details of a specific place.
 }
 ```
 # Get Event Detail by ID
+```
+/event/detail/?id=3
+```
 
 Retrieve details of a specific event.
 
@@ -217,6 +232,9 @@ Retrieve details of a specific event.
 }
 ```
 # Get Activities for a Place
+```
+/activity/?id=40
+```
 
 Retrieve activities associated with a specific place.
 
@@ -242,6 +260,9 @@ Retrieve activities associated with a specific place.
 }
 ```
 # Get Reviews for a Place
+```
+/review/?place_id=5
+```
 
 Retrieve reviews for a specific place.
 
