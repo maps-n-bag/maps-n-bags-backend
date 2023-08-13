@@ -2,14 +2,15 @@
 
 ## RUN
 > npm install
-> npm start
+> npm run dev
 
 ## Technologies
 <!-- - Docker -->
 - Node 18
 - Express
-- Typescript
-
+- Typescript [NO]
+- Postgres (NeonDB)
+  
 ### Misc
 - [TypeScript Playground](https://www.typescriptlang.org/play)
 - Use the ES modules like this ~ `import express from 'express';`
