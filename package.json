@@ -1,5 +1,5 @@
 {
-  "name": "jobs",
+  "name": "maps-n-bags",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -14,7 +14,6 @@
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "pg-promise": "^10.7.9",
-    "mongoose": "^5.11.10",
     "cors": "^2.8.5"
   },
   "devDependencies": {
