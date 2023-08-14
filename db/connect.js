@@ -1,5 +1,5 @@
 const pg=require('pg');
-const client=new pg.Client({connectionString:process.env.URL});
+const client=new pg.Client({connectionString:process.env.DB_URL});
 
 async function connect(){
     try{
