@@ -11,6 +11,10 @@ const user = require("./routes/user_route");
 
 app.use(express.json())
 app.use(cors())
+app.use(express.urlencoded({extended: true}))
+app.get("/", (req, res) => {
+  res.send("Hello World")
+})
 app.use("/plan", plan)
 app.use("/event", event)
 app.use("/place", place)
