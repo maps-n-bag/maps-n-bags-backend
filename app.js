@@ -33,6 +33,9 @@ router.get("/", (req, res) => {
 const db = require("./db/models")
 
 const port = process.env.PORT || 8080
-db.sequelize.sync().then(() => {
+
+// db.sequelize.sync({
+//   // force: true
+// }).then(() => {
   app.listen(port, console.log(`Server started on port ${port}`))
-})
+// })

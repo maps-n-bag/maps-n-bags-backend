@@ -233,7 +233,7 @@ Retrieve details of a specific event.
 ```
 # Get Activities for a Place
 ```
-/activity/?id=40
+/place/activity/?id=40
 ```
 
 Retrieve activities associated with a specific place.

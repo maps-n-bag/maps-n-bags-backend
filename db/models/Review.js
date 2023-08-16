@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     }
 
-  });
+  }, {});
 
   Review.associate = (models) => {
     Review.belongsTo(models.Place, {

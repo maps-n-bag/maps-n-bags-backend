@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     type: {
-      type: DataTypes.ENUM('restaurant', 'residence', 'tourist_spot'),
+      type: DataTypes.ENUM('restaurant', 'residence', 'spot'),
       allowNull: false,
       defaultValue: 'restaurant'
     },
@@ -63,6 +63,16 @@ module.exports = (sequelize, DataTypes) => {
     });
     Place.hasOne(models.Region, { foreignKey: 'representative_place_id' });
     Place.hasMany(models.Distance);
+    Place.belongsToMany(models.Tag, { 
+      through: 'SpotTag',
+      foreignKey: 'place_id',
+      onDelete: 'SET NULL',
+    });
+    Place.belongsToMany(models.Activity, { 
+      through: 'SpotActivity',
+      foreignKey: 'place_id',
+      onDelete: 'SET NULL',
+    });
   };
 
   return Place;

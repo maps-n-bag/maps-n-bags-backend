@@ -24,9 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     Event.belongsTo(models.Place, {
       foreignKey: 'place_id',
     });
-    // Event.belongsTo(models.Activity, {
-    //   foreignKey: 'activity_id',
-    // });
+    Event.belongsTo(models.Activity, {
+      foreignKey: 'activity_id',
+    });
     Event.hasOne(models.EventDetails, { foreignKey: 'event_id' });
     Event.hasOne(models.EventImage, { foreignKey: 'event_id' });
   };
