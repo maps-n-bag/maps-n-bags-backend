@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Places',
+        model: 'place',
         key: 'id'
       }
     },
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Places',
+        model: 'place',
         key: 'id'
       }
     },
@@ -31,7 +31,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'distance',
+    timestamps: false
+  });
 
   Distance.associate = function (models) {
 

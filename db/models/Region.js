@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     }
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'region',
+    timestamps: false
+  });
 
   Region.associate = function (models) {
     Region.belongsTo(models.Place, {

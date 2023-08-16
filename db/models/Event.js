@@ -10,11 +10,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    order: {
+    day: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'event',
+    timestamps: false
+  });
 
   Event.associate = function (models) {
     Event.belongsTo(models.Plan, {
@@ -27,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     Event.belongsTo(models.Activity, {
       foreignKey: 'activity_id',
     });
-    Event.hasOne(models.EventDetails, { foreignKey: 'event_id' });
+    Event.hasOne(models.EventDetail, { foreignKey: 'event_id' });
     Event.hasOne(models.EventImage, { foreignKey: 'event_id' });
   };
 

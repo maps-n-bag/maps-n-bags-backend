@@ -9,7 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'https://placehold.co/600x400'
     },
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'event_image',
+    timestamps: false
+  });
 
   EventImage.associate = (models) => {
 

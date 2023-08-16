@@ -51,7 +51,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: { isUrl: true }
     }
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'place',
+    timestamps: false
+  });
 
   Place.associate = function (models) {
     Place.hasMany(models.Event, { foreignKey: 'place_id' });
@@ -64,12 +68,12 @@ module.exports = (sequelize, DataTypes) => {
     Place.hasOne(models.Region, { foreignKey: 'representative_place_id' });
     Place.hasMany(models.Distance);
     Place.belongsToMany(models.Tag, { 
-      through: 'SpotTag',
+      through: 'place_tag',
       foreignKey: 'place_id',
       onDelete: 'SET NULL',
     });
     Place.belongsToMany(models.Activity, { 
-      through: 'SpotActivity',
+      through: 'place_activity',
       foreignKey: 'place_id',
       onDelete: 'SET NULL',
     });

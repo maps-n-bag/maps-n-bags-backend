@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Regions',
+        model: 'region',
         key: 'id'
       }
     },
@@ -14,12 +14,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Regions',
+        model: 'region',
         key: 'id'
       }
     }
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'nearby_region',
+    timestamps: false
+  });
 
   NearbyRegion.associate = function (models) {
 

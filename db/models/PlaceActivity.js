@@ -7,7 +7,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     }
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'place_activity',
+    timestamps: false
+  });
 
   PlaceActivity.associate = function(models) {
     PlaceActivity.belongsTo(models.Place, { foreignKey: 'place_id' });

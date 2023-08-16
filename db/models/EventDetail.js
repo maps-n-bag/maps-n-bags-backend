@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-  const EventDetails = sequelize.define('EventDetails', {
+  const EventDetail = sequelize.define('EventDetail', {
 
     checked: {
       type: DataTypes.BOOLEAN,
@@ -20,17 +20,21 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     }
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'event_detail',
+    timestamps: false
+  });
 
-  EventDetails.associate = (models) => {
+  EventDetail.associate = (models) => {
 
-    EventDetails.belongsTo(models.Event, {
+    EventDetail.belongsTo(models.Event, {
       foreignKey: 'event_id',
       onDelete: 'CASCADE'
     });
 
   };
 
-  return EventDetails;
+  return EventDetail;
 
 };

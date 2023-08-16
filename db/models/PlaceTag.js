@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Places',
+        model: 'place',
         key: 'id'
       }
     },
@@ -13,11 +13,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Tags',
+        model: 'tag',
         key: 'id'
       }
     }
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'place_tag',
+    timestamps: false
+  });
 
   PlaceTag.associate = function(models) {
     PlaceTag.belongsTo(models.Place, { foreignKey: 'place_id' });

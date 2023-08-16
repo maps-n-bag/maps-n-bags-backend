@@ -7,15 +7,19 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'tag',
+    timestamps: false
+  });
 
   Tag.associate = function (models) {
-    Tag.belongsTo(models.PlaceActivity, {
+    Tag.hasMany(models.PlaceActivity, {
       foreignKey: 'tag_id',
       onDelete: 'SET NULL',
     });
     Tag.belongsToMany(models.Place, {
-      through: 'PlaceTag',
+      through: 'place_tag',
       foreignKey: 'tag_id',
       onDelete: 'SET NULL',
     });

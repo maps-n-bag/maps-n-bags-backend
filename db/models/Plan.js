@@ -21,8 +21,17 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.BOOLEAN,
       allowNull : false,
       defaultValue : false,
+    },
+    image : {
+      type : DataTypes.STRING,
+      validate : { isUrl : true },
+      defaultValue : 'https://picsum.photos/200',
     }
-  }, {});
+  }, {
+    underscored: true,
+    tableName : 'plan',
+    timestamps: false
+  });
 
   Plan.associate = function(models) {
     Plan.belongsTo(models.User, {

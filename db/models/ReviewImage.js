@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: { isUrl: true }
     }
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'review_image',
+    timestamps: false
+  });
 
   ReviewImage.associate = function (models) {
     ReviewImage.belongsTo(models.Review, { 

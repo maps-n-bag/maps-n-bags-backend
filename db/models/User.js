@@ -38,7 +38,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: { isUrl: true },
       defaultValue: 'https://www.shareicon.net/data/512x512/2016/05/24/770117_people_512x512.png'
     }
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'user',
+    timestamps: false
+  });
 
   User.associate = function(models) {
     User.hasMany(models.Plan , { foreignKey: 'user_id' });

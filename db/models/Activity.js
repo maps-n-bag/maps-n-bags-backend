@@ -16,11 +16,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     }
 
-  }, {});
+  }, {
+    underscored: true,
+    tableName: 'activity',
+    timestamps: false
+  });
 
   Activity.associate = (models) => {
     Activity.belongsToMany(models.Place, {
-      through: 'SpotActivity',
+      through: 'place_activity',
       foreignKey: 'activity_id',
     });
   };
