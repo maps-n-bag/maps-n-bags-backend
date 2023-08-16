@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
 
-  get:
+  getUser:
     async (req, res) => {
       const user_id = req.query.id;
       try {
@@ -22,7 +22,7 @@ module.exports = {
       }
     },
 
-  post:
+  createUser:
     async (req, res) => {
 
       try {
@@ -53,7 +53,7 @@ module.exports = {
       }
     },
 
-  put:
+  updateUser:
     async (req, res) => {
 
       try {
