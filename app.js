@@ -5,11 +5,11 @@ const app = express()
 const cors = require("cors")
 // const bodyParser = require("body-parser")
 
+const user = require("./routes/user_route");
 // const plan = require("./routes/plan_route")
 // const event = require("./routes/event_route")
 // const place = require("./routes/place_route")
 // const review = require("./routes/review_route")
-const user = require("./routes/user_route");
 
 const router = express.Router()
 app.use(router)
@@ -25,10 +25,10 @@ router.get("/", (req, res) => {
   res.send("Hello World")
 })
 
+app.use("/api/user", user)
 // app.use("/api/plan", plan)
 // app.use("/api/event", event)
 // app.use("/api/place", place)
-app.use("/api/user", user)
 // app.use("/api/review", review)
 
 //-------------------------------------------------------------

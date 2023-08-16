@@ -1,3 +1,32 @@
+# [POST] Create Plan
+```
+/api/plan
+```
+Create a new travel plan.
+
+## Endpoint
+
+## Body Parameters
+```json
+{
+    "start_date" : "13-07-2023",
+    "end_date" : "17-07-2023",
+    "destination" : ["sylhet", "sunamganj"],
+    "guest" : {
+        "adult" : 4,
+        "kid" : 0
+    },
+    "tags" : [1, 5]
+}
+```
+
+## Response
+```
+{
+    plan_id: 1
+}
+```
+
 # Get Plan Details
 ```
 /api/plan?id=1
@@ -169,6 +198,53 @@ Retrieve details of a specific event.
 }
 ```
 
+# [PUT] Update Event Detail by ID
+```
+/api/event/detail?event_id=3
+```
+
+Retrieve details of a specific event.
+
+## Endpoint
+
+
+## Query Parameters
+
+| Parameter | Type   | Description        |
+|-----------|--------|--------------------|
+| id        | number | ID of the event    |
+
+## Body Parameters
+```json
+{
+    "event_id": 3,
+    "checked": true,
+    "note": "had NOT so much fun.",
+    "generated_detail": "This was a visit to some place",
+    "expenditure": "22000.00",
+    "event_images": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+    ]
+}
+```
+
+## Response
+
+```json
+{
+    "event_id": 3,
+    "checked": true,
+    "note": "had NOT so much fun.",
+    "generated_detail": "This was a visit to some place",
+    "expenditure": "22000.00",
+    "event_images": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+    ]
+}
+```
+
 # Get Reviews for a Place
 ```
 /api/review?place_id=5
@@ -233,4 +309,132 @@ Retrieve information about a specific user.
 }
 ```
 
+# User Login
+```
+/api/user/login
+```
 
+Login a user.
+
+## Endpoint
+
+## Body Parameters
+```json
+{
+    "username": "niananto",
+    "password": "something"
+}
+```
+
+## Response
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6h3nHeS8dhfjm8NY8VyUw3_IUz0CcY6Y"
+}
+```
+
+# Get Tag
+```
+/api/tag
+```
+Send the first 10 tags.
+
+## Endpoint
+
+## Response
+
+```json
+{
+    [
+        {
+            "id": 1,
+            "name": "Popular"
+        },
+        {
+            "id": 2,
+            "name": "Hidden gems"
+        },
+        {
+            "id": 3,
+            "name": "Culture"
+        },
+        {
+            "id": 4,
+            "name": "Outdoors"
+        },
+        {
+            "id": 5,
+            "name": "Relaxing"
+        },
+        {
+            "id": 6,
+            "name": "Romantic"
+        },
+        {
+            "id": 7,
+            "name": "Beaches"
+        },
+        {
+            "id": 8,
+            "name": "Historic sites"
+        },
+        {
+            "id": 9,
+            "name": "Museums"
+        },
+        {
+            "id": 10,
+            "name": "Shopping"
+        }
+    ]
+}
+```
+
+# Get Regions
+```
+/api/region
+```
+Send all the regions.
+
+## Endpoint
+
+## Response
+
+```json
+{
+    [
+        {
+            "id": 1,
+            "name": "Chittagong"
+        },
+        {
+            "id": 2,
+            "name": "Dhaka"
+        },
+        {
+            "id": 3,
+            "name": "Khulna"
+        },
+        {
+            "id": 4,
+            "name": "Rajshahi"
+        },
+        {
+            "id": 5,
+            "name": "Rangpur"
+        },
+        {
+            "id": 6,
+            "name": "Sylhet"
+        },
+        {
+            "id": 7,
+            "name": "Barisal"
+        },
+        {
+            "id": 8,
+            "name": "Mymensingh"
+        }
+    ]
+}
+```
