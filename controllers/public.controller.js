@@ -80,4 +80,39 @@ module.exports = {
 
     },
 
+  getTags:
+    async (req, res) => {
+
+      // return first 10 tags
+      try {
+        const tags = await models.Tag.findAll({
+          limit: 10
+        });
+
+        res.status(200).send(tags);
+
+      } catch (e) {
+        console.log('Tags get error: ', e);
+        res.status(500).send('Internal server error');
+      }
+
+    },
+
+  getRegions:
+    async (req, res) => {
+
+      try {
+        const regions = await models.Region.findAll({
+          attributes: ['id', 'title']
+        });
+
+        res.status(200).send(regions);
+
+      } catch (e) {
+        console.log('Regions get error: ', e);
+        res.status(500).send('Internal server error');
+      }
+
+    }
+
 };
