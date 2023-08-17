@@ -143,7 +143,7 @@ Retrieve a list of events for a specific travel plan.
 ```
 # Get Place Details by ID
 ```
-/api/place?id=5
+/api/public/place?id=5
 ```
 
 Retrieve details of a specific place.
@@ -206,9 +206,9 @@ Retrieve details of a specific event.
     "event_id": 3,
     "checked": true,
     "note": "had so much fun.",
-    "generated_detail": "This was a visit to some place",
+    "generated_details": "This was a visit to some place",
     "expenditure": "1000.00",
-    "event_images": [
+    "images": [
         "https://picsum.photos/200",
         "https://picsum.photos/200"
     ]
@@ -236,12 +236,11 @@ Retrieve details of a specific event.
 ## Body Parameters
 ```json
 {
-    "event_id": 3,
     "checked": true,
     "note": "had NOT so much fun.",
-    "generated_detail": "This was a visit to some place",
+    "generated_details": "This was a visit to some place",
     "expenditure": "22000.00",
-    "event_images": [
+    "images": [
         "https://picsum.photos/200",
         "https://picsum.photos/200"
     ]
@@ -255,9 +254,9 @@ Retrieve details of a specific event.
     "event_id": 3,
     "checked": true,
     "note": "had NOT so much fun.",
-    "generated_detail": "This was a visit to some place",
+    "generated_details": "This was a visit to some place",
     "expenditure": "22000.00",
-    "event_images": [
+    "images": [
         "https://picsum.photos/200",
         "https://picsum.photos/200"
     ]
@@ -266,7 +265,7 @@ Retrieve details of a specific event.
 
 # Get Reviews for a Place
 ```
-/api/review?place_id=5
+/api/public/place/review?place_id=5
 ```
 
 Retrieve reviews for a specific place.
@@ -290,7 +289,7 @@ Retrieve reviews for a specific place.
             "place_id": 5,
             "username": "Buddhist Bangladeshi",
             "comment": "Nice public place with a nice restaurant by the side of it. The water seems a bit... odd, I wouldn't dip my toe in it, but a nice place to spend some leisurely time.\n\nOne bad thing: Very hot. The sun seems to burn the skin.",
-            "review_image": [
+            "images": [
                 "https://lh5.googleusercontent.com/p/AF1QipM-MhrDZjPGhsRz6zR7G2VsUFzjjmKpieB1OjC2=w300-h450-p-k-no",
                 "https://lh5.googleusercontent.com/p/AF1QipM-MhrDZjPGhsRz6zR7G2VsUFzjjmKpieB1OjC2=w300-h450-p-k-no"
             ]
@@ -357,7 +356,7 @@ Login a user.
 
 # Get Tag
 ```
-/api/tag
+/api/public/tags
 ```
 Send the first 10 tags.
 
@@ -370,43 +369,43 @@ Send the first 10 tags.
     [
         {
             "id": 1,
-            "name": "Popular"
+            "title": "Popular"
         },
         {
             "id": 2,
-            "name": "Hidden gems"
+            "title": "Hidden gems"
         },
         {
             "id": 3,
-            "name": "Culture"
+            "title": "Culture"
         },
         {
             "id": 4,
-            "name": "Outdoors"
+            "title": "Outdoors"
         },
         {
             "id": 5,
-            "name": "Relaxing"
+            "title": "Relaxing"
         },
         {
             "id": 6,
-            "name": "Romantic"
+            "title": "Romantic"
         },
         {
             "id": 7,
-            "name": "Beaches"
+            "title": "Beaches"
         },
         {
             "id": 8,
-            "name": "Historic sites"
+            "title": "Historic sites"
         },
         {
             "id": 9,
-            "name": "Museums"
+            "title": "Museums"
         },
         {
             "id": 10,
-            "name": "Shopping"
+            "title": "Shopping"
         }
     ]
 }
@@ -414,7 +413,7 @@ Send the first 10 tags.
 
 # Get Regions
 ```
-/api/region
+/api/public/regions
 ```
 Send all the regions.
 
@@ -427,35 +426,35 @@ Send all the regions.
     [
         {
             "id": 1,
-            "name": "Chittagong"
+            "title": "Chittagong"
         },
         {
             "id": 2,
-            "name": "Dhaka"
+            "title": "Dhaka"
         },
         {
             "id": 3,
-            "name": "Khulna"
+            "title": "Khulna"
         },
         {
             "id": 4,
-            "name": "Rajshahi"
+            "title": "Rajshahi"
         },
         {
             "id": 5,
-            "name": "Rangpur"
+            "title": "Rangpur"
         },
         {
             "id": 6,
-            "name": "Sylhet"
+            "title": "Sylhet"
         },
         {
             "id": 7,
-            "name": "Barisal"
+            "title": "Barisal"
         },
         {
             "id": 8,
-            "name": "Mymensingh"
+            "title": "Mymensingh"
         }
     ]
 }
