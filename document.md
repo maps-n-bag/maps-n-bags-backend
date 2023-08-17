@@ -6,24 +6,31 @@ Create a new travel plan.
 
 ## Endpoint
 
+## Auth
+- Required
+- Not Required [public]
+
 ## Body Parameters
 ```json
 {
     "start_date" : "13-07-2023",
     "end_date" : "17-07-2023",
-    "destination" : ["sylhet", "sunamganj"],
-    "guest" : {
-        "adult" : 4,
-        "kid" : 0
-    },
+    "regions" : [1],
     "tags" : [1, 5]
 }
 ```
 
 ## Response
-```
+```json
 {
-    plan_id: 1
+    "id": 1,
+    "user_id": 1,
+    "title": "Cox's Bazar",
+    "start_date": "2023-08-22T18:00:00.000Z",
+    "end_date": "2023-08-26T18:00:00.000Z",
+    "description": "Cox's Bazar in 5 days",
+    "public": true,
+    "image": "https://picsum.photos/400"
 }
 ```
 
@@ -36,6 +43,9 @@ Retrieve details of a specific travel plan.
 
 ## Endpoint
 
+## Auth
+- Required
+- Not Required [public]
 
 ## Query Parameters
 
@@ -66,6 +76,8 @@ Retrieve a list of events for a specific travel plan.
 
 ## Endpoint
 
+## Auth
+- Required
 
 ## Query Parameters
 
@@ -138,6 +150,8 @@ Retrieve details of a specific place.
 
 ## Endpoint
 
+## Auth
+- Not Required
 
 ## Query Parameters
 
@@ -175,6 +189,9 @@ Retrieve details of a specific event.
 
 ## Endpoint
 
+## Auth
+- Required
+- Not Required [public]
 
 ## Query Parameters
 
@@ -207,6 +224,8 @@ Retrieve details of a specific event.
 
 ## Endpoint
 
+## Auth
+- Required
 
 ## Query Parameters
 
@@ -287,6 +306,9 @@ Retrieve reviews for a specific place.
 Retrieve information about a specific user.
 
 ## Endpoint
+
+## Auth
+- Required
 
 ## Query Parameters
 
