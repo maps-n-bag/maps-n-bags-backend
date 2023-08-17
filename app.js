@@ -5,8 +5,8 @@ const app = express()
 const cors = require("cors")
 // const bodyParser = require("body-parser")
 
-const user = require("./routes/user_route");
-// const plan = require("./routes/plan_route")
+const user = require("./routes/user.route");
+const plan = require("./routes/plan.route")
 // const event = require("./routes/event_route")
 // const place = require("./routes/place_route")
 // const review = require("./routes/review_route")
@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
 })
 
 app.use("/api/user", user)
-// app.use("/api/plan", plan)
+app.use("/api/plan", plan)
 // app.use("/api/event", event)
 // app.use("/api/place", place)
 // app.use("/api/review", review)
