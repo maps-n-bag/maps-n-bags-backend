@@ -47,4 +47,105 @@ module.exports = {
       }
     },
 
+    getEventDetail:
+    async (req, res) => {
+
+      try {
+        const event_id = req.query.event_id;
+
+        try {
+          const eventDetail = await models.EventDetail.findOne({
+            where: {
+              event_id: event_id
+            }
+          });
+
+          if (!eventDetail) {
+            res.status(404).send('Event not found');
+          }
+
+          const eventImages = await models.EventImage.findAll({
+            where: {
+              event_id: event_id
+            }
+          });
+
+          eventDetail = {...eventDetail, images: eventImages.map(image => image.link)};
+          
+          res.status(200).send(eventDetail);
+
+        } catch (e) {
+          console.log('Event get error: ', e);
+          res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Event get error: ', e);
+        res.status(400).send('Bad request');
+      }
+    
+    },
+
+    updateEventDetail:
+    async (req, res) => {
+
+      try {
+        const event_id = req.query.event_id;
+        const { checked, note, generated_details, expenditure, images } = req.body;
+
+        try {
+          const eventDetail = await models.EventDetail.findOne({
+            where: {
+              event_id: event_id
+            }
+          });
+
+          if (!eventDetail) {
+            res.status(404).send('Event not found');
+          }
+
+          eventDetail.update({
+            checked,
+            note,
+            generated_details,
+            expenditure
+          });
+
+          const eventImages = await models.EventImage.findAll({
+            where: {
+              event_id: event_id
+            }
+          });
+
+          if (eventImages) {
+            for (let i = 0; i < eventImages.length; i++) {
+              const image = eventImages[i];
+              await image.destroy();
+            }
+          }
+
+          if (images) {
+            for (let i = 0; i < images.length; i++) {
+              const image = images[i];
+              await models.EventImage.create({
+                event_id: event_id,
+                link: image
+              });
+            }
+          }
+
+          res.status(200).send(eventDetail);
+
+        } catch (e) {
+          console.log('Event update error: ', e);
+          res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Event update error: ', e);
+        res.status(400).send('Bad request');
+      }
+
   }
+
+}
