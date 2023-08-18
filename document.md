@@ -1,17 +1,17 @@
 # User
 
-# [POST] Create User
+## [POST] Create User
 ```
 /api/user
 ```
 Create a new user.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Not Required
 
-## Body Parameters
+### Body Parameters
 ```json
 {
     "username": "niananto",
@@ -24,7 +24,7 @@ Create a new user.
 }
 ```
 
-## Response
+### Response
 ```json
 {
     "id": 27,
@@ -38,25 +38,25 @@ Create a new user.
 }
 ```
 
-# [Get] User Information
+## [Get] User Information
 ```
 /api/user?id=27
 ```
 
 Retrieve information about a specific user.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Required
 
-## Query Parameters
+### Query Parameters
 
 | Parameter | Type   | Description       |
 |-----------|--------|-------------------|
 | id        | number | ID of the user    |
 
-## Response
+### Response
 
 ```json
 {
@@ -71,16 +71,16 @@ Retrieve information about a specific user.
 }
 ```
 
-# [POST] User Login
+## [POST] User Login
 ```
 /api/user/login
 ```
 
 Login a user.
 
-## Endpoint
+### Endpoint
 
-## Body Parameters
+### Body Parameters
 ```json
 {
     "username": "niananto",
@@ -88,31 +88,31 @@ Login a user.
 }
 ```
 
-## Response
+### Response
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6h3nHeS8dhfjm8NY8VyUw3_IUz0CcY6Y"
 }
 ```
 
-# [PUT] Edit User
+## [PUT] Edit User
 ```
 /api/user
 ```
 Edit user information.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Required
 
-## Query Parameters
+### Query Parameters
 
 | Parameter | Type   | Description       |
 |-----------|--------|-------------------|
 | id        | number | ID of the user    |
 
-## Body Parameters
+### Body Parameters
 ```json
 {
     "username": "nazmul",
@@ -124,7 +124,7 @@ Edit user information.
 }
 ```
 
-## Response
+### Response
 ```json
 {
     "id": 27,
@@ -138,24 +138,24 @@ Edit user information.
 }
 ```
 
-# [PUT] Update Password
+## [PUT] Update Password
 ```
 /api/user/password
 ```
 Update user password.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Required
 
-## Query Parameters
+### Query Parameters
 
 | Parameter | Type   | Description       |
 |-----------|--------|-------------------|
 | id        | number | ID of the user    |
 
-## Body Parameters
+### Body Parameters
 ```json
 {
     "old_password": "something",
@@ -163,7 +163,7 @@ Update user password.
 }
 ```
 
-## Response
+### Response
 ```json
 {
     "id": 27,
@@ -178,19 +178,19 @@ Update user password.
 ```
 
 # Plan
-# [POST] Create Plan
+## [POST] Create Plan
 ```
 /api/plan
 ```
 Create a new travel plan.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Required
 - Not Required [public]
 
-## Body Parameters
+### Body Parameters
 ```json
 {
     "start_date" : "13-07-2023",
@@ -200,7 +200,7 @@ Create a new travel plan.
 }
 ```
 
-## Response
+### Response
 ```json
 {
     "id": 1,
@@ -214,26 +214,59 @@ Create a new travel plan.
 }
 ```
 
+## [Get] Plan Details
+```
+/api/plan?id=1
+```
+Retrieve details of a specific travel plan.
 
-# Get Day by Day Events by Plan ID
+### Endpoint
+
+### Auth
+- Required
+- Not Required [public]
+
+### Query Parameters
+
+| Parameter | Type   | Description                 |
+|-----------|--------|-----------------------------|
+| id        | number | ID of the travel plan      |
+
+### Response
+
+```json
+{
+    "id": 1,
+    "user_id": 1,
+    "title": "Cox's Bazar",
+    "start_date": "2023-08-22T18:00:00.000Z",
+    "end_date": "2023-08-26T18:00:00.000Z",
+    "description": "Cox's Bazar in 5 days",
+    "public": true,
+    "image": "https://picsum.photos/400"
+}
+```
+
+# Event
+## [Get] Day by Day Events by Plan ID
 ```
 /api/event?plan_id=1&day=1
 ```
 
 Retrieve a list of events for a specific travel plan.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Required
 
-## Query Parameters
+### Query Parameters
 
 | Parameter | Type   | Description             |
 |-----------|--------|-------------------------|
 | plan_id   | number | ID of the travel plan  |
 
-## Response
+### Response
 
 ```json
 {
@@ -290,59 +323,27 @@ Retrieve a list of events for a specific travel plan.
 }
 ```
 
-# Get Plan Details
-```
-/api/plan?id=1
-```
 
-Retrieve details of a specific travel plan.
-
-## Endpoint
-
-## Auth
-- Required
-- Not Required [public]
-
-## Query Parameters
-
-| Parameter | Type   | Description                 |
-|-----------|--------|-----------------------------|
-| id        | number | ID of the travel plan      |
-
-## Response
-
-```json
-{
-    "id": 1,
-    "user_id": 1,
-    "title": "Cox's Bazar",
-    "start_date": "2023-08-22T18:00:00.000Z",
-    "end_date": "2023-08-26T18:00:00.000Z",
-    "description": "Cox's Bazar in 5 days",
-    "public": true,
-    "image": "https://picsum.photos/400"
-}
-```
-# [Get] Event Detail by ID
+## [Get] Event Detail by ID
 ```
 /api/event/detail?event_id=3
 ```
 
 Retrieve details of a specific event.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Required
 - Not Required [public]
 
-## Query Parameters
+### Query Parameters
 
 | Parameter | Type   | Description        |
 |-----------|--------|--------------------|
 | id        | number | ID of the event    |
 
-## Response
+### Response
 
 ```json
 {
@@ -358,25 +359,25 @@ Retrieve details of a specific event.
 }
 ```
 
-# [PUT] Update Event Detail by ID
+## [PUT] Update Event Detail by ID
 ```
 /api/event/detail?event_id=3
 ```
 
 Retrieve details of a specific event.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Required
 
-## Query Parameters
+### Query Parameters
 
 | Parameter | Type   | Description        |
 |-----------|--------|--------------------|
 | id        | number | ID of the event    |
 
-## Body Parameters
+### Body Parameters
 ```json
 {
     "checked": true,
@@ -390,7 +391,7 @@ Retrieve details of a specific event.
 }
 ```
 
-## Response
+### Response
 
 ```json
 {
@@ -410,25 +411,25 @@ Retrieve details of a specific event.
 
 
 # Public
-# [Get] Place Details by ID
+## [Get] Place Details by ID
 ```
 /api/public/place?id=1
 ```
 
 Retrieve details of a specific place.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Not Required
 
-## Query Parameters
+### Query Parameters
 
 | Parameter | Type   | Description       |
 |-----------|--------|-------------------|
 | id        | number | ID of the place   |
 
-## Response
+### Response
 
 ```json
 {
@@ -451,25 +452,25 @@ Retrieve details of a specific place.
 ```
 
 
-# [Get] Reviews for a Place
+## [Get] Reviews for a Place
 ```
 /api/public/place/review?place_id=14
 ```
 
 Retrieve reviews for a specific place.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Not Required
 
-## Query Parameters
+### Query Parameters
 
 | Parameter | Type   | Description             |
 |-----------|--------|-------------------------|
 | place_id  | number | ID of the place         |
 
-## Response
+### Response
 
 ```json
 [
@@ -487,18 +488,18 @@ Retrieve reviews for a specific place.
 ```
 
 
-# [Get] Tags
+## [Get] Tags
 ```
 /api/public/tags
 ```
 Send the first 10 tags.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Not Required
 
-## Response
+### Response
 
 ```json
 [
@@ -545,18 +546,18 @@ Send the first 10 tags.
 ]
 ```
 
-# [Get] Regions
+## [Get] Regions
 ```
 /api/public/regions
 ```
 Send all the regions.
 
-## Endpoint
+### Endpoint
 
-## Auth
+### Auth
 - Not Required
 
-## Response
+### Response
 
 ```json
 [
