@@ -1,3 +1,183 @@
+# User
+
+# [POST] Create User
+```
+/api/user
+```
+Create a new user.
+
+## Endpoint
+
+## Auth
+- Not Required
+
+## Body Parameters
+```json
+{
+    "username": "niananto",
+    "first_name": "Nazmul",
+    "last_name": "Ananto",
+    "email": "nazmulislamananto@gmail.com",
+    "password": "something",
+    "profile_pic": "https://picsum.photos/200",
+    "cover_pic": "https://picsum.photos/200"
+}
+```
+
+## Response
+```json
+{
+    "id": 27,
+    "username": "niananto",
+    "first_name": "Nazmul",
+    "last_name": "Ananto",
+    "email": "nazmulislamananto@gmail.com",
+    "password": "$2b$10$9AYpPMadcHoYgLIGteQ9m.B2d2xd7Flz3XIAmibIZFtj7M/0ovpDm",
+    "profile_pic": "https://picsum.photos/200",
+    "cover_pic": "https://picsum.photos/200"
+}
+```
+
+# [Get] User Information
+```
+/api/user?id=27
+```
+
+Retrieve information about a specific user.
+
+## Endpoint
+
+## Auth
+- Required
+
+## Query Parameters
+
+| Parameter | Type   | Description       |
+|-----------|--------|-------------------|
+| id        | number | ID of the user    |
+
+## Response
+
+```json
+{
+    "id": 27,
+    "username": "niananto",
+    "first_name": "Nazmul",
+    "last_name": "Ananto",
+    "email": "nazmulislamananto@gmail.com",
+    "password": "$2b$10$9AYpPMadcHoYgLIGteQ9m.B2d2xd7Flz3XIAmibIZFtj7M/0ovpDm",
+    "profile_pic": "https://picsum.photos/200",
+    "cover_pic": "https://picsum.photos/200"
+}
+```
+
+# [POST] User Login
+```
+/api/user/login
+```
+
+Login a user.
+
+## Endpoint
+
+## Body Parameters
+```json
+{
+    "username": "niananto",
+    "password": "something"
+}
+```
+
+## Response
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6h3nHeS8dhfjm8NY8VyUw3_IUz0CcY6Y"
+}
+```
+
+# [PUT] Edit User
+```
+/api/user
+```
+Edit user information.
+
+## Endpoint
+
+## Auth
+- Required
+
+## Query Parameters
+
+| Parameter | Type   | Description       |
+|-----------|--------|-------------------|
+| id        | number | ID of the user    |
+
+## Body Parameters
+```json
+{
+    "username": "nazmul",
+    "first_name": "Nazmul",
+    "last_name": "Ananto",
+    "email": "nazmulislamananto@gmail.com",
+    "profile_pic": "https://picsum.photos/200",
+    "cover_pic": "https://picsum.photos/200"
+}
+```
+
+## Response
+```json
+{
+    "id": 27,
+    "username": "nazmul",
+    "first_name": "Nazmul",
+    "last_name": "Ananto",
+    "email": "nazmulislamananto@gmail.com",
+    "password": "$2b$10$oR3KZi2pyUzilVKS/hbZyumAxzbPUiIn0C1O4oNBPowrltKLlgaCO",
+    "profile_pic": "https://picsum.photos/200",
+    "cover_pic": "https://picsum.photos/200"
+}
+```
+
+# [PUT] Update Password
+```
+/api/user/password
+```
+Update user password.
+
+## Endpoint
+
+## Auth
+- Required
+
+## Query Parameters
+
+| Parameter | Type   | Description       |
+|-----------|--------|-------------------|
+| id        | number | ID of the user    |
+
+## Body Parameters
+```json
+{
+    "old_password": "something",
+    "new_password": "anything"
+}
+```
+
+## Response
+```json
+{
+    "id": 27,
+    "username": "niananto",
+    "first_name": "Nazmul",
+    "last_name": "Ananto",
+    "email": "nazmulislamananto@gmail.com",
+    "password": "$2b$10$gd/THvtUVLJnWf8VUYVppOpyy0TU8rHkRp2.Ik3Hnir7LVCw2sHJS",
+    "profile_pic": "https://picsum.photos/200",
+    "cover_pic": "https://picsum.photos/200"
+}
+```
+
+# Plan
 # [POST] Create Plan
 ```
 /api/plan
@@ -34,39 +214,7 @@ Create a new travel plan.
 }
 ```
 
-# Get Plan Details
-```
-/api/plan?id=1
-```
 
-Retrieve details of a specific travel plan.
-
-## Endpoint
-
-## Auth
-- Required
-- Not Required [public]
-
-## Query Parameters
-
-| Parameter | Type   | Description                 |
-|-----------|--------|-----------------------------|
-| id        | number | ID of the travel plan      |
-
-## Response
-
-```json
-{
-    "id": 1,
-    "user_id": 1,
-    "title": "Cox's Bazar",
-    "start_date": "2023-08-22T18:00:00.000Z",
-    "end_date": "2023-08-26T18:00:00.000Z",
-    "description": "Cox's Bazar in 5 days",
-    "public": true,
-    "image": "https://picsum.photos/400"
-}
-```
 # Get Day by Day Events by Plan ID
 ```
 /api/event?plan_id=1&day=1
@@ -141,46 +289,41 @@ Retrieve a list of events for a specific travel plan.
     ]
 }
 ```
-# Get Place Details by ID
+
+# Get Plan Details
 ```
-/api/public/place?id=5
+/api/plan?id=1
 ```
 
-Retrieve details of a specific place.
+Retrieve details of a specific travel plan.
 
 ## Endpoint
 
 ## Auth
-- Not Required
+- Required
+- Not Required [public]
 
 ## Query Parameters
 
-| Parameter | Type   | Description       |
-|-----------|--------|-------------------|
-| id        | number | ID of the place   |
+| Parameter | Type   | Description                 |
+|-----------|--------|-----------------------------|
+| id        | number | ID of the travel plan      |
 
 ## Response
 
 ```json
 {
-    "id": 5,
-    "region_id": "1",
-    "title": "Gol Dighi - গোল দিঘি",
-    "type": 1,
-    "latitude": "21.44013335724268000000",
-    "longitude": "91.97964258623468000000",
-    "rating": "4.2",
-    "description": "Tourist Attraction",
-    "rating_count": 800,
-    "address": "Cox's Bazar",
-    "contact": null,
-    "website": "https://gol-dighi.business.site/?utm_source=gmb&utm_medium=referral",
-    "images": [
-        "https://lh5.googleusercontent.com/p/AF1QipPd5EMZITpGwrMQwF_w1XATL85z0zgu13xT-9Z5=w408-h306-k-no"
-    ]
+    "id": 1,
+    "user_id": 1,
+    "title": "Cox's Bazar",
+    "start_date": "2023-08-22T18:00:00.000Z",
+    "end_date": "2023-08-26T18:00:00.000Z",
+    "description": "Cox's Bazar in 5 days",
+    "public": true,
+    "image": "https://picsum.photos/400"
 }
 ```
-# Get Event Detail by ID
+# [Get] Event Detail by ID
 ```
 /api/event/detail?event_id=3
 ```
@@ -263,15 +406,62 @@ Retrieve details of a specific event.
 }
 ```
 
-# Get Reviews for a Place
+
+
+
+# Public
+# [Get] Place Details by ID
 ```
-/api/public/place/review?place_id=5
+/api/public/place?id=1
+```
+
+Retrieve details of a specific place.
+
+## Endpoint
+
+## Auth
+- Not Required
+
+## Query Parameters
+
+| Parameter | Type   | Description       |
+|-----------|--------|-------------------|
+| id        | number | ID of the place   |
+
+## Response
+
+```json
+{
+    "id": 1,
+    "title": "Cox's Bazar",
+    "description": "Cox’s Bazar is a town on the southeast coast of Bangladesh. It’s known for its very long, sandy beachfront, stretching from Sea Beach in the north to Kolatoli Beach in the south. Aggameda Khyang monastery is home to bronze statues and centuries-old Buddhi",
+    "type": "spot",
+    "latitude": 21.42711346360012,
+    "longitude": 92.00390984644827,
+    "rating": 4.6,
+    "rating_count": 39,
+    "address": "Cox's Bazar 4700",
+    "contact": null,
+    "website": null,
+    "region_id": 1,
+    "images": [
+        "https://picsum.photos/200"
+    ]
+}
+```
+
+
+# [Get] Reviews for a Place
+```
+/api/public/place/review?place_id=14
 ```
 
 Retrieve reviews for a specific place.
 
 ## Endpoint
 
+## Auth
+- Not Required
 
 ## Query Parameters
 
@@ -282,79 +472,22 @@ Retrieve reviews for a specific place.
 ## Response
 
 ```json
-{
-    [
-        {
-            "id": 2,
-            "place_id": 5,
-            "username": "Buddhist Bangladeshi",
-            "comment": "Nice public place with a nice restaurant by the side of it. The water seems a bit... odd, I wouldn't dip my toe in it, but a nice place to spend some leisurely time.\n\nOne bad thing: Very hot. The sun seems to burn the skin.",
-            "images": [
-                "https://lh5.googleusercontent.com/p/AF1QipM-MhrDZjPGhsRz6zR7G2VsUFzjjmKpieB1OjC2=w300-h450-p-k-no",
-                "https://lh5.googleusercontent.com/p/AF1QipM-MhrDZjPGhsRz6zR7G2VsUFzjjmKpieB1OjC2=w300-h450-p-k-no"
-            ]
-        }
-    ]
-}
-```
-# Get User Information
-```
-/api/user?id=1
+[
+    {
+        "id": 4,
+        "username": "Khaled Mohammad",
+        "comment": "Cox’s Bazar is a beautiful coastal town in Bangladesh. It is one of the longest sea beaches in Asia. Cox's Bazar has emerged as an attractive tourist destination by virtue of its enchanting natural beauty, sandy beaches, marine drive, hill tracts, local c",
+        "place_id": 15,
+        "images": [
+            "https://lh5.googleusercontent.com/p/AF1QipOJ89YykSTNI-UyydCm6mWjHlemTG0iqGgTawuH=w300-h225-p-k-no",
+            "https://lh5.googleusercontent.com/p/AF1QipMRqF5Y3v_x8V8W18qB2uMR0bzZeYTj2PuaQ216=w300-h225-p-k-no"
+        ]
+    }
+]
 ```
 
-Retrieve information about a specific user.
 
-## Endpoint
-
-## Auth
-- Required
-
-## Query Parameters
-
-| Parameter | Type   | Description       |
-|-----------|--------|-------------------|
-| id        | number | ID of the user    |
-
-## Response
-
-```json
-{
-    "id": 1,
-    "username": "admin",
-    "first_name": "admin",
-    "last_name": "User",
-    "email": "admin@example.com",
-    "password": "password",
-    "profile_pic": "https://picsum.photos/200",
-    "cover_pic": "https://picsum.photos/200"
-}
-```
-
-# User Login
-```
-/api/user/login
-```
-
-Login a user.
-
-## Endpoint
-
-## Body Parameters
-```json
-{
-    "username": "niananto",
-    "password": "something"
-}
-```
-
-## Response
-```json
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6h3nHeS8dhfjm8NY8VyUw3_IUz0CcY6Y"
-}
-```
-
-# Get Tag
+# [Get] Tags
 ```
 /api/public/tags
 ```
@@ -362,56 +495,57 @@ Send the first 10 tags.
 
 ## Endpoint
 
+## Auth
+- Not Required
+
 ## Response
 
 ```json
-{
-    [
-        {
-            "id": 1,
-            "title": "Popular"
-        },
-        {
-            "id": 2,
-            "title": "Hidden gems"
-        },
-        {
-            "id": 3,
-            "title": "Culture"
-        },
-        {
-            "id": 4,
-            "title": "Outdoors"
-        },
-        {
-            "id": 5,
-            "title": "Relaxing"
-        },
-        {
-            "id": 6,
-            "title": "Romantic"
-        },
-        {
-            "id": 7,
-            "title": "Beaches"
-        },
-        {
-            "id": 8,
-            "title": "Historic sites"
-        },
-        {
-            "id": 9,
-            "title": "Museums"
-        },
-        {
-            "id": 10,
-            "title": "Shopping"
-        }
-    ]
-}
+[
+    {
+        "id": 1,
+        "title": "Popular"
+    },
+    {
+        "id": 2,
+        "title": "Hidden gems"
+    },
+    {
+        "id": 3,
+        "title": "Culture"
+    },
+    {
+        "id": 4,
+        "title": "Relaxing"
+    },
+    {
+        "id": 5,
+        "title": "Romantic"
+    },
+    {
+        "id": 6,
+        "title": "Beaches"
+    },
+    {
+        "id": 7,
+        "title": "Historic sites"
+    },
+    {
+        "id": 8,
+        "title": "Museums"
+    },
+    {
+        "id": 9,
+        "title": "Shopping"
+    },
+    {
+        "id": 10,
+        "title": "Wildlife"
+    }
+]
 ```
 
-# Get Regions
+# [Get] Regions
 ```
 /api/public/regions
 ```
@@ -419,43 +553,20 @@ Send all the regions.
 
 ## Endpoint
 
+## Auth
+- Not Required
+
 ## Response
 
 ```json
-{
-    [
-        {
-            "id": 1,
-            "title": "Chittagong"
-        },
-        {
-            "id": 2,
-            "title": "Dhaka"
-        },
-        {
-            "id": 3,
-            "title": "Khulna"
-        },
-        {
-            "id": 4,
-            "title": "Rajshahi"
-        },
-        {
-            "id": 5,
-            "title": "Rangpur"
-        },
-        {
-            "id": 6,
-            "title": "Sylhet"
-        },
-        {
-            "id": 7,
-            "title": "Barisal"
-        },
-        {
-            "id": 8,
-            "title": "Mymensingh"
-        }
-    ]
-}
+[
+    {
+        "id": 1,
+        "title": "Cox's Bazar"
+    },
+    {
+        "id": 2,
+        "title": "Bandarban"
+    }
+]
 ```
