@@ -2,6 +2,15 @@ module.exports = (sequelize, DataTypes) => {
 
   const EventDetail = sequelize.define('EventDetail', {
 
+    event_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: 'event',
+        key: 'id'
+      }
+    },
     checked: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
