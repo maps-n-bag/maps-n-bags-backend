@@ -66,7 +66,8 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'SET NULL',
     });
     Place.hasOne(models.Region, { foreignKey: 'representative_place_id' });
-    Place.hasMany(models.Distance);
+    Place.hasMany(models.Distance, { foreignKey: 'first_place_id' });
+    Place.hasMany(models.Distance, { foreignKey: 'second_place_id' });
     Place.belongsToMany(models.Tag, { 
       through: 'place_tag',
       foreignKey: 'place_id',

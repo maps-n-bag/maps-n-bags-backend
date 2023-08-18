@@ -237,13 +237,13 @@ Retrieve details of a specific travel plan.
 ```json
 {
     "id": 1,
-    "user_id": 1,
     "title": "Cox's Bazar",
-    "start_date": "2023-08-22T18:00:00.000Z",
-    "end_date": "2023-08-26T18:00:00.000Z",
-    "description": "Cox's Bazar in 5 days",
+    "start_date": "2023-08-25T00:00:00.391Z",
+    "end_date": "2023-08-27T00:00:00.951Z",
+    "description": "3 days in Cox's Bazar. Fun Stuff",
     "public": true,
-    "image": "https://picsum.photos/400"
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMI30IqgSPF0LvwCWyD3a5WMHl51B3KAeMuQCrL=w408-h306-k-no",
+    "user_id": 27
 }
 ```
 
@@ -269,58 +269,34 @@ Retrieve a list of events for a specific travel plan.
 ### Response
 
 ```json
-{
-    [
-        {
-            "journey": {
-                "journey_type": "car",
-                "distance": "20.30",
-                "estimated_time": "00:30:00"
-            },
-            "event": {
-                "id": 1,
-                "plan_id": 1,
-                "start_time": "2023-08-23T04:00:00.000Z",
-                "end_time": "2023-08-23T12:38:30.000Z",
-                "place_id": 4,
-                "activity": "swimming",
-                "description": null
-            }
+[
+    {
+        "journey": {
+            "journey_type": "car",
+            "distance": 7.6,
+            "est_time": 24
         },
-        {
-            "journey": {
-                "journey_type": "car",
-                "distance": "20.30",
-                "estimated_time": "00:30:00"
-            },
-            "event": {
-                "id": 2,
-                "plan_id": 1,
-                "start_time": "2023-08-23T04:38:47.000Z",
-                "end_time": "2023-08-23T12:38:59.000Z",
-                "place_id": 5,
-                "activity": "swimming",
-                "description": null
-            }
-        },
-        {
-            "journey": {
-                "journey_type": "car",
-                "distance": "20.30",
-                "estimated_time": "00:30:00"
-            },
-            "event": {
-                "id": 3,
-                "plan_id": 1,
-                "start_time": "2023-08-23T04:39:10.000Z",
-                "end_time": "2023-08-23T12:39:21.000Z",
-                "place_id": 6,
-                "activity": "swimming",
-                "description": null
-            }
+        "event": {
+            "id": 1,
+            "start_time": "2023-08-25T10:00:00.122Z",
+            "end_time": "2023-08-25T13:00:00.814Z",
+            "place_id": 15
         }
-    ]
-}
+    },
+    {
+        "journey": {
+            "journey_type": "car",
+            "distance": 2.1,
+            "est_time": 5
+        },
+        "event": {
+            "id": 2,
+            "start_time": "2023-08-25T15:00:00.413Z",
+            "end_time": "2023-08-25T18:00:00.559Z",
+            "place_id": 16
+        }
+    }
+]
 ```
 
 

@@ -1,9 +1,9 @@
-const { response } = require('express');
+const { Op } = require("sequelize");
 const models = require('../db/models');
 
 module.exports = {
 
-  getEvent:
+  getEvents:
     async (req, res) => {
 
       try {
@@ -11,32 +11,18 @@ module.exports = {
         const day = req.query.day;
 
         try {
-          const events = await models.Event.findAll({
-            where: {
-              plan_id: plan_id,
-              day: day
-            },
-            order: [
-              ['start_time', 'ASC']
-            ]
-          });
-
-          if (!events) {
-            res.status(404).send('Events not found');
+          const plan = await models.Plan.findByPk(plan_id);
+          if (!plan) {
+            res.status(404).send('Plan not found');
+            return;
           }
-          else {
 
-            const result = [];
-            for (let i = 0; i < events.length; i++) {
-              const event = events[i];
-              result.push({
-                'journey': null, // for now
-                'event': event
-              });
-            }
+          const start_date = plan.start_date.getDate();
+          const end_date = plan.end_date.getDate();
+          const noOfDays = (end_date - start_date) + 1;
+          console.log('noOfDays: ', noOfDays);
 
-            res.status(200).send(result);
-          }
+          await calculateEventsList(res, plan_id, noOfDays, day);
 
         } catch (e) {
           console.log('Events get error: ', e);
@@ -154,4 +140,120 @@ module.exports = {
 
   }
 
+}
+
+
+async function calculateEventsList(res, plan_id, noOfDays, day) {
+
+  // return a list of {journey, events} objects
+  // journey: {journey_type, distance, est_time}
+  // event: {id, start_time, end_time, place_id, activity, description}
+
+  const currentDayEvents = await models.Event.findAll({
+    where: {
+      plan_id: plan_id,
+      day: day
+    },
+    order: [
+      ['start_time', 'ASC']
+    ]
+  });
+
+  if (!currentDayEvents) {
+    res.status(404).send('Events not found for this day');
+    return;
+  }
+
+  const result = [];
+  let previousEventPlaceId = null;
+
+  // for the first day, the journey is from first event's region's center to the first event
+  if (day == 1) {
+    const firstEvent = currentDayEvents[0];
+    const firstEventPlaceId = firstEvent.place_id;
+    const firstEventPlace = await models.Place.findByPk(firstEventPlaceId);
+    const firstEventRegionId = firstEventPlace.region_id;
+    const firstEventRegion = await models.Region.findByPk(firstEventRegionId);
+    previousEventPlaceId = firstEventRegion.representative_place_id;
+  } 
+  // for all the other days and events, the journey is from the previous event to the current event
+  else {
+    const previousDayEvents = await models.Event.findAll({
+      where: {
+        plan_id: plan_id,
+        day: day - 1
+      },
+      order: [
+        ['start_time', 'ASC']
+      ]
+    });
+    const lastEventOfPreviousDay = previousDayEvents[previousDayEvents.length - 1];
+    previousEventPlaceId = lastEventOfPreviousDay.place_id;
+  }
+
+  // for all the days, the journey is from the previous event to the current event
+  for (let i = 0; i < currentDayEvents.length; i++) {
+    const currentEvent = currentDayEvents[i];
+    const currentEventPlaceId = currentEvent.place_id;
+    const journey = await models.Distance.findOne({
+      where: {
+        [Op.or]: [
+          {
+            first_place_id: previousEventPlaceId,
+            second_place_id: currentEventPlaceId
+          },
+          {
+            first_place_id: currentEventPlaceId,
+            second_place_id: previousEventPlaceId
+          }
+        ]
+      },
+      attributes: ['journey_type', 'distance', 'est_time']
+    });
+
+    result.push({
+      journey: journey,
+      event: {
+        id: currentEvent.id,
+        start_time: currentEvent.start_time,
+        end_time: currentEvent.end_time,
+        place_id: currentEvent.place_id,
+        activity: currentEvent.activity,
+      }
+    });
+
+    previousEventPlaceId = currentEventPlaceId;
+  }
+
+  // for the last day, the journey is from the last event to the last event's region's center
+  if (day == noOfDays) {
+    const lastEvent = currentDayEvents[currentDayEvents.length - 1];
+    const lastEventPlaceId = lastEvent.place_id;
+    const lastEventPlace = await models.Place.findByPk(lastEventPlaceId);
+    const lastEventRegionId = lastEventPlace.region_id;
+    const lastEventRegion = await models.Region.findByPk(lastEventRegionId);
+    const lastEventRegionCenterId = lastEventRegion.representative_place_id;
+    const journey = await models.Distance.findOne({
+      where: {
+        [Op.or]: [
+          {
+            first_place_id: lastEventPlaceId,
+            second_place_id: lastEventRegionCenterId
+          },
+          {
+            first_place_id: lastEventRegionCenterId,
+            second_place_id: lastEventPlaceId
+          }
+        ]
+      },
+      attributes: ['journey_type', 'distance', 'est_time']
+    });
+
+    result.push({
+      journey: journey,
+      event: null
+    });
+  }
+
+  res.status(200).send(result);
 }
