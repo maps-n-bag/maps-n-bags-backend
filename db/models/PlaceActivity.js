@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
         model: 'place',
         key: 'id'
       },
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false,
     },
 
     activity_id: {
@@ -17,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         model: 'activity',
         key: 'id'
       },
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false,
     },
 
     tag_id: {
@@ -26,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         model: 'tag',
         key: 'id'
       },
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false,
     },
 
     est_cost: {

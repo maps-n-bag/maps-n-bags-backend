@@ -23,16 +23,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Activity.associate = (models) => {
-    Activity.belongsToMany(models.Place, {
-      through: 'place_activity',
-      foreignKey: 'activity_id',
-      onDelete: 'CASCADE',
-    });
-    Activity.belongsToMany(models.Tag, {
-      through: 'place_activity',
-      foreignKey: 'activity_id',
-      onDelete: 'CASCADE',
-    });
+    // Activity.belongsToMany(models.Place, {
+    //   through: 'place_activity',
+    //   foreignKey: 'activity_id',
+    //   onDelete: 'CASCADE',
+    // });
+    // Activity.belongsToMany(models.Tag, {
+    //   through: 'place_activity',
+    //   foreignKey: 'activity_id',
+    //   onDelete: 'CASCADE',
+    // });
   };
 
   return Activity;
