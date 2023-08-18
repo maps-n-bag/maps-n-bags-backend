@@ -14,15 +14,17 @@ module.exports = {
           if (!place) {
             res.status(404).send('Place not found');
           }
+          else {
 
-          const placeImages = await models.PlaceImage.findAll({
-            where: {
-              place_id: place_id
-            }
-          });
+            const placeImages = await models.PlaceImage.findAll({
+              where: {
+                place_id: place_id
+              }
+            });
 
-          const response = {...place.dataValues, images: placeImages.map(image => image.link)};
-          res.status(200).send(response);
+            const response = {...place.dataValues, images: placeImages.map(image => image.link)};
+            res.status(200).send(response);
+          }
 
         } catch (e) {
           console.log('Place get error: ', e);
@@ -52,21 +54,23 @@ module.exports = {
           if (!reviews) {
             res.status(404).send('Place not found');
           }
+          else {
 
-          const result = [];
-          for (let i = 0; i < reviews.length; i++) {
-            const reviewImages = await models.ReviewImage.findAll({
-              where: {
-                review_id: reviews[i].id
-              }
-            });
-            result.push({
-              ...reviews[i].dataValues,
-              images: reviewImages.map(image => image.link)
-            });
+            const result = [];
+            for (let i = 0; i < reviews.length; i++) {
+              const reviewImages = await models.ReviewImage.findAll({
+                where: {
+                  review_id: reviews[i].id
+                }
+              });
+              result.push({
+                ...reviews[i].dataValues,
+                images: reviewImages.map(image => image.link)
+              });
+            }
+
+            res.status(200).send(result);
           }
-
-          res.status(200).send(result);
 
         } catch (e) {
           console.log('Place review get error: ', e);

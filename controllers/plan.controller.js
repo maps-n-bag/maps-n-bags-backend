@@ -20,7 +20,13 @@ module.exports = {
         // for now sending the dummy plan
         const plan_id = 1;
         const plan = await models.Plan.findByPk(plan_id);
-        res.status(201).send(plan);
+        
+        if(!plan) {
+          res.status(404).send('Plan not found');
+        }
+        else {
+          res.status(201).send(plan);
+        }
 
       } catch (e) {
         console.log('Plan post error: ', e);
