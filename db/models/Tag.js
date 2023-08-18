@@ -14,14 +14,20 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Tag.associate = function (models) {
-    Tag.hasMany(models.PlaceActivity, {
+    Tag.belongsToMany(models.Place, {
+      through: 'place_activity',
       foreignKey: 'tag_id',
-      onDelete: 'SET NULL',
+      onDelete: 'CASCADE',
+    });
+    Tag.belongsToMany(models.Activity, {
+      through: 'place_activity',
+      foreignKey: 'tag_id',
+      onDelete: 'CASCADE',
     });
     Tag.belongsToMany(models.Place, {
       through: 'place_tag',
       foreignKey: 'tag_id',
-      onDelete: 'SET NULL',
+      onDelete: 'CASCADE',
     });
   };
 

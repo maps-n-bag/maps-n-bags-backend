@@ -4,26 +4,26 @@ module.exports = (sequelize, DataTypes) => {
 
     first_place_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
         model: 'place',
         key: 'id'
-      }
+      },
+      primaryKey: true,
     },
     second_place_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
         model: 'place',
         key: 'id'
-      }
-    },
-    distance: {
-      type: DataTypes.FLOAT,
-      allowNull: false
+      },
+      primaryKey: true,
     },
     journey_type: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    distance: {
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     est_time: {
@@ -41,10 +41,12 @@ module.exports = (sequelize, DataTypes) => {
 
     Distance.belongsTo(models.Place, {
       foreignKey: 'first_place_id',
+      onDelete: 'CASCADE',
     });
 
     Distance.belongsTo(models.Place, {
       foreignKey: 'second_place_id',
+      onDelete: 'CASCADE',
     });
 
   };

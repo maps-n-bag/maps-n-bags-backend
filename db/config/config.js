@@ -13,6 +13,9 @@ module.exports = {
         "rejectUnauthorized": false
       }
     },
+    "define": {
+      "timestamps": false
+    },
   },
   // "test": {
   //   "username": "root",
@@ -32,6 +35,9 @@ module.exports = {
         "require": true,
         "rejectUnauthorized": false
       }
+    },
+    "define": {
+      "timestamps": false
     },
   }
 };

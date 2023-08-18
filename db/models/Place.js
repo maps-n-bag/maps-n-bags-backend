@@ -71,12 +71,17 @@ module.exports = (sequelize, DataTypes) => {
     Place.belongsToMany(models.Tag, { 
       through: 'place_tag',
       foreignKey: 'place_id',
-      onDelete: 'SET NULL',
+      onDelete: 'CASCADE',
+    });
+    Place.belongsToMany(models.Tag, {
+      through: 'place_activity',
+      foreignKey: 'place_id',
+      onDelete: 'CASCADE',
     });
     Place.belongsToMany(models.Activity, { 
       through: 'place_activity',
       foreignKey: 'place_id',
-      onDelete: 'SET NULL',
+      onDelete: 'CASCADE',
     });
   };
 

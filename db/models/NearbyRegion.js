@@ -4,19 +4,19 @@ module.exports = (sequelize, DataTypes) => {
 
     first_region_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
         model: 'region',
         key: 'id'
-      }
+      },
+      primaryKey: true,
     },
     second_region_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
         model: 'region',
         key: 'id'
-      }
+      },
+      primaryKey: true,
     }
 
   }, {
@@ -28,11 +28,13 @@ module.exports = (sequelize, DataTypes) => {
   NearbyRegion.associate = function (models) {
 
     NearbyRegion.belongsTo(models.Region, {
-      foreignKey: 'first_region_id'
+      foreignKey: 'first_region_id',
+      onDelete: 'CASCADE',
     });
 
     NearbyRegion.belongsTo(models.Region, {
-      foreignKey: 'second_region_id'
+      foreignKey: 'second_region_id',
+      onDelete: 'CASCADE',
     });
 
   };
