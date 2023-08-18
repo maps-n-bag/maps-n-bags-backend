@@ -42,27 +42,38 @@ module.exports = {
         const event_id = req.query.event_id;
 
         try {
-          const eventDetail = await models.EventDetail.findOne({
+          let eventDetail = await models.EventDetail.findOne({
             where: {
               event_id: event_id
             }
           });
 
           if (!eventDetail) {
-            res.status(404).send('Event not found');
-          } else {
-
-            const eventImages = await models.EventImage.findAll({
-              where: {
-                event_id: event_id
-              }
+            // we have to create one
+            eventDetail = await models.EventDetail.create({
+              event_id: event_id,
+              checked: false,
+              note: '',
+              generated_details: '',
+              expenditure: 0
             });
 
-            const result = {...eventDetail, images: eventImages.map(image => image.link)};
-            
-            res.status(200).send(result);
-            
+            res.status(201).send({
+              ...eventDetail.dataValues,
+              images: []
+            })
+            return;
           }
+
+          const eventImages = await models.EventImage.findAll({
+            where: {
+              event_id: event_id
+            }
+          });
+
+          const result = {...eventDetail.dataValues, images: eventImages.map(image => image.link)};
+          
+          res.status(200).send(result);
 
         } catch (e) {
           console.log('Event get error: ', e);

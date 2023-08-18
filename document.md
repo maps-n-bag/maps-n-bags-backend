@@ -300,9 +300,9 @@ Retrieve a list of events for a specific travel plan.
 ```
 
 
-## [Get] Event Detail by ID
+## [Get] Event Detail by ID (or Create)
 ```
-/api/event/detail?event_id=3
+/api/event/detail?event_id=1
 ```
 
 Retrieve details of a specific event.
@@ -323,7 +323,7 @@ Retrieve details of a specific event.
 
 ```json
 {
-    "event_id": 3,
+    "event_id": 1,
     "checked": true,
     "note": "had so much fun.",
     "generated_details": "This was a visit to some place",
@@ -337,7 +337,7 @@ Retrieve details of a specific event.
 
 ## [PUT] Update Event Detail by ID
 ```
-/api/event/detail?event_id=3
+/api/event/detail?event_id=1
 ```
 
 Retrieve details of a specific event.
@@ -371,7 +371,8 @@ Retrieve details of a specific event.
 
 ```json
 {
-    "event_id": 3,
+    "id": 1,
+    "event_id": 1,
     "checked": true,
     "note": "had NOT so much fun.",
     "generated_details": "This was a visit to some place",
