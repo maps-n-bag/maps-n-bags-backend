@@ -25,16 +25,16 @@ module.exports = {
             res.status(404).send('Events not found');
           }
 
-          response = [];
+          const result = [];
           for (let i = 0; i < events.length; i++) {
             const event = events[i];
-            response.push({
+            result.push({
               'journey': null, // for now
               'event': event
             });
           }
 
-          res.status(200).send(response);
+          res.status(200).send(result);
 
         } catch (e) {
           console.log('Events get error: ', e);
@@ -62,17 +62,19 @@ module.exports = {
 
           if (!eventDetail) {
             res.status(404).send('Event not found');
+          } else {
+
+            const eventImages = await models.EventImage.findAll({
+              where: {
+                event_id: event_id
+              }
+            });
+
+            const result = {...eventDetail, images: eventImages.map(image => image.link)};
+            
+            res.status(200).send(result);
+            
           }
-
-          const eventImages = await models.EventImage.findAll({
-            where: {
-              event_id: event_id
-            }
-          });
-
-          eventDetail = {...eventDetail, images: eventImages.map(image => image.link)};
-          
-          res.status(200).send(eventDetail);
 
         } catch (e) {
           console.log('Event get error: ', e);
