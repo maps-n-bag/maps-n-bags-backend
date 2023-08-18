@@ -548,3 +548,41 @@ Send all the regions.
     }
 ]
 ```
+
+## [GET] Nearby Restaurant
+```
+/api/public/nearby/restaurant?place_id=16
+```
+Retrieve nearby restaurant for a specific place.
+
+### Endpoint
+
+### Auth
+- Not Required
+
+### Query Parameters
+
+| Parameter | Type   | Description             |
+|-----------|--------|-------------------------|
+| place_id  | number | ID of the place         |
+
+### Response
+```json
+{
+    "id": 34,
+    "title": "Poushee Hotel & Restaurant",
+    "description": "",
+    "type": "restaurant",
+    "latitude": 21.4423011,
+    "longitude": 91.9705256,
+    "rating": 4.2,
+    "rating_count": 4429,
+    "address": "",
+    "contact": "",
+    "website": "",
+    "region_id": 1,
+    "PlaceImage": {
+        "link": "https://lh5.googleusercontent.com/p/AF1QipOvPV75R4lfhH-hglOGJOQlSMffIMzq0tXWTydq=w427-h240-k-no"
+    }
+}
+```

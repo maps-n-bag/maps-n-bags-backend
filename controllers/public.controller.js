@@ -22,7 +22,7 @@ module.exports = {
               }
             });
 
-            const response = {...place.dataValues, images: placeImages.map(image => image.link)};
+            const response = { ...place.dataValues, images: placeImages.map(image => image.link) };
             res.status(200).send(response);
           }
 
@@ -35,7 +35,7 @@ module.exports = {
         console.log('Place get error: ', e);
         res.status(400).send('Bad request');
       }
-    
+
     },
 
   getPlaceReview:
@@ -117,6 +117,56 @@ module.exports = {
         res.status(500).send('Internal server error');
       }
 
-    }
+    },
+
+  getNearbyRestaurant:
+    async (req, res) => {
+
+      try {
+        const place_id = req.query.place_id;
+
+        try {
+          const place = await models.Place.findByPk(place_id);
+          if (!place) {
+            res.status(404).send('Place not found');
+            return;
+          }
+
+          const nearbyRestaurant = await models.Place.findOne({
+            where: {
+              type: 'restaurant',
+              region_id: place.region_id,
+              id: {
+                [models.Sequelize.Op.ne]: place_id
+              },
+            },
+            order: models.sequelize.literal('(latitude-' + place.latitude + ')*(latitude-' + place.latitude + ') + (longitude-' + place.longitude + ')*(longitude-' + place.longitude + ') ASC'),
+          });
+
+          if (!nearbyRestaurant) {
+            res.status(404).send('Nearby restaurants not found');
+            return;
+          }
+
+          const nearbyRestaurantImages = await models.PlaceImage.findAll({
+            where: {
+              place_id: nearbyRestaurant.id
+            }
+          });
+
+          const response = { ...nearbyRestaurant.dataValues, images: nearbyRestaurantImages.map(image => image.link) };
+          res.status(200).send(response);
+
+        } catch (e) {
+          console.log('Nearby restaurants get error: ', e);
+          res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Nearby restaurants get error: ', e);
+        res.status(400).send('Bad request');
+      }
+
+    },
 
 };
