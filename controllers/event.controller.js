@@ -22,7 +22,18 @@ module.exports = {
           const noOfDays = (end_date - start_date) + 1;
           console.log('noOfDays: ', noOfDays);
 
-          await calculateEventsList(res, plan_id, noOfDays, day);
+          let result = null;
+          if (day) {
+            result = await calculateEventsList(res, plan_id, noOfDays, day);
+          } else {
+            result = [];
+            for (let i = 1; i <= noOfDays; i++) {
+              const eventsList = await calculateEventsList(res, plan_id, noOfDays, i);
+              result.push(eventsList);
+            }
+          }
+
+          res.status(200).send(result);
 
         } catch (e) {
           console.log('Events get error: ', e);
@@ -266,5 +277,5 @@ async function calculateEventsList(res, plan_id, noOfDays, day) {
     });
   }
 
-  res.status(200).send(result);
+  return result;
 }

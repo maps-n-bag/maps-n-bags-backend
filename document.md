@@ -299,6 +299,120 @@ Retrieve a list of events for a specific travel plan.
 ]
 ```
 
+## [Get] All Days Events List
+```
+/api/event?plan_id=1
+```
+Retrieve a list of events for a specific travel plan.
+
+### Endpoint
+
+### Auth
+- Required
+
+### Query Parameters
+
+| Parameter | Type   | Description             |
+|-----------|--------|-------------------------|
+| plan_id   | number | ID of the travel plan  |
+
+### Response
+```json
+[
+    [
+        {
+            "journey": {
+                "journey_type": "car",
+                "distance": 7.6,
+                "est_time": 24
+            },
+            "event": {
+                "id": 1,
+                "start_time": "2023-08-25T10:00:00.122Z",
+                "end_time": "2023-08-25T13:00:00.814Z",
+                "place_id": 15
+            }
+        },
+        {
+            "journey": {
+                "journey_type": "car",
+                "distance": 2.1,
+                "est_time": 5
+            },
+            "event": {
+                "id": 2,
+                "start_time": "2023-08-25T15:00:00.413Z",
+                "end_time": "2023-08-25T18:00:00.559Z",
+                "place_id": 16
+            }
+        }
+    ],
+    [
+        {
+            "journey": {
+                "journey_type": "car",
+                "distance": 1.4,
+                "est_time": 5
+            },
+            "event": {
+                "id": 3,
+                "start_time": "2023-08-26T10:00:00.267Z",
+                "end_time": "2023-08-26T13:00:00.984Z",
+                "place_id": 17
+            }
+        },
+        {
+            "journey": {
+                "journey_type": "car",
+                "distance": 1.1,
+                "est_time": 4
+            },
+            "event": {
+                "id": 4,
+                "start_time": "2023-08-26T15:00:00.018Z",
+                "end_time": "2023-08-26T18:00:00.636Z",
+                "place_id": 18
+            }
+        }
+    ],
+    [
+        {
+            "journey": {
+                "journey_type": "car",
+                "distance": 5.4,
+                "est_time": 14
+            },
+            "event": {
+                "id": 5,
+                "start_time": "2023-08-27T10:00:00.498Z",
+                "end_time": "2023-08-27T13:00:00.734Z",
+                "place_id": 19
+            }
+        },
+        {
+            "journey": {
+                "journey_type": "car",
+                "distance": 3.4,
+                "est_time": 9
+            },
+            "event": {
+                "id": 6,
+                "start_time": "2023-08-27T15:00:00.428Z",
+                "end_time": "2023-08-27T18:00:00.560Z",
+                "place_id": 20
+            }
+        },
+        {
+            "journey": {
+                "journey_type": "car",
+                "distance": 4.8,
+                "est_time": 18
+            },
+            "event": null
+        }
+    ]
+]
+```
 
 ## [Get] Event Detail by ID (or Create)
 ```
