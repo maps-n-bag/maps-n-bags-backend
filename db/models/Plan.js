@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey : 'user_id',
       onDelete : 'CASCADE',
     });
+    Plan.belongsToMany(models.Region, {
+      through : 'plan_region',
+      foreignKey : 'plan_id',
+      onDelete : 'CASCADE',
+    });
   }
 
   return Plan;

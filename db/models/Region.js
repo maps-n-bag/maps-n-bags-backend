@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     Region.hasMany(models.Place, {
       foreignKey: 'region_id',
     });
+    Region.belongsToMany(models.Plan, {
+      through: 'plan_region',
+      foreignKey: 'region_id',
+      onDelete: 'CASCADE',
+    });
   };
 
   return Region;

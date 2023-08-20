@@ -58,5 +58,75 @@ module.exports = {
           console.log('Plan get error: ', e);
           res.status(400).send('Bad request');
         }
+      },
+
+  getExplorations:
+  async (req, res) => {
+
+    try {
+      const plan_id = req.query.plan_id;
+
+      try {
+        const regions = await models.PlanRegion.findAll({
+          where: {
+            plan_id: plan_id
+          }
+        });
+
+        if (!regions) {
+          res.status(404).send('Plan not found');
+          return;
+        }
+
+        const places = await models.Place.findAll({
+          where: {
+            region_id: regions.map(region => region.region_id)
+          }
+        });
+        
+        if (!places) {
+          res.status(404).send('Places not found');
+          return;
+        }
+
+        const placeActivities = await models.PlaceActivity.findAll({
+          where: {
+            place_id: places.map(place => place.id)
+          }
+        });
+
+        if (!placeActivities) {
+          res.status(404).send('Place activities not found');
+          return;
+        }
+
+        const tagPlaceActivities = {};
+        for (let i=0; i<placeActivities.length; i++) {
+          const placeActivity = placeActivities[i];
+          const tag_id = placeActivity.tag_id;
+
+          if (!tagPlaceActivities[tag_id]) {
+            tagPlaceActivities[tag_id] = {};
+          }
+
+          if (!tagPlaceActivities[tag_id][placeActivity.place_id]) {
+            tagPlaceActivities[tag_id][placeActivity.place_id] = [];
+          }
+
+          tagPlaceActivities[tag_id][placeActivity.place_id].push(placeActivity.activity_id);
+        }
+
+        res.status(200).send(tagPlaceActivities);
+
+      } catch (e) {
+        console.log('Explorations get error: ', e);
+        res.status(500).send('Internal server error');
       }
+
+    } catch (e) {
+      console.log('Explorations get error: ', e);
+      res.status(400).send('Bad request');
+    }
+
+  }
 }
