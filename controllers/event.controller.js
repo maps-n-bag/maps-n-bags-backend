@@ -232,9 +232,20 @@ async function calculateEventsList(res, plan_id, noOfDays, day) {
       },
       attributes: ['journey_type', 'distance', 'est_time']
     });
-
+    modifiedJourney = null;
+    if(journey) {
+      const previousEventPlace = await models.Place.findByPk(previousEventPlaceId);
+      const currentEventPlace = await models.Place.findByPk(currentEventPlaceId);
+      modifiedJourney = {
+        journey_type: journey.journey_type,
+        distance: journey.distance,
+        est_time: journey.est_time,
+        from: previousEventPlace.title,
+        to: currentEventPlace.title
+    }
+  }
     result.push({
-      journey: journey,
+      journey: modifiedJourney,
       event: {
         id: currentEvent.id,
         start_time: currentEvent.start_time,
