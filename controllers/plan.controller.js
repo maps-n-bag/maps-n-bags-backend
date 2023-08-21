@@ -128,5 +128,39 @@ module.exports = {
       res.status(400).send('Bad request');
     }
 
+  },
+  getExplorationsModified : async (req, res) => {
+    try {
+      const plan_id = req.query.plan_id;
+
+      try {
+        const regions = await models.PlanRegion.findAll({
+          where: {
+            plan_id: plan_id
+          }
+        });
+
+        if (!regions) {
+          res.status(404).send('Plan not found');
+          return;
+        }
+        const tags = await models.Tag.findAll({
+          attributes: ['id']
+        })
+        final_result =[{}]
+        
+        for(let i=0;i<tags.length;i++){
+          // join with PlaceTag
+          const places = await models.PlaceTag
+        }
+      } catch (e) {
+        console.log('Explorations get error: ', e);
+        res.status(500).send('Internal server error');
+      }
+
+    } catch (e) {
+      console.log('Explorations get error: ', e);
+      res.status(400).send('Bad request');
+    }
   }
 }
