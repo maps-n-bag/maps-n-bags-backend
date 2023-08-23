@@ -100,9 +100,12 @@ module.exports = {
           if (match) {
             console.log('match');
             const payload = { id: user.id };
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
+            const token = jwt.sign(payload, process.env.JWT_SECRET);
 
-            res.status(200).json({ token });
+            res.status(200).json({
+              token,
+              user_id: user.id,
+            });
 
           } else {
             res.status(401).json({ error: 'Invalid email or password' });
