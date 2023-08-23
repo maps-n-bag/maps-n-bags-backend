@@ -150,8 +150,21 @@ module.exports = {
         final_result =[{}]
         
         for(let i=0;i<tags.length;i++){
-          // join with PlaceTag
-          const places = await models.PlaceTag
+          const places = await models.PlaceActivity.findAll({
+            where: {
+              tag_id: tags[i].id
+            },
+            attributes: ['place_id']
+          });
+          let place_details = []
+          if(places.length>0){
+             place_details= places.map(place =>{
+              models.Place.findByPk(place.place_id).then(place_details =>{
+                return place_details.type==='spot' ? place_details : null
+              })
+             })
+          }
+          console.log(place_details)
         }
       } catch (e) {
         console.log('Explorations get error: ', e);
