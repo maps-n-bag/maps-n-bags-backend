@@ -103,6 +103,7 @@ module.exports = {
 
       try {
         console.log('updateEventDetail: ', req.body);
+        console.log('updateEventDetail: ', req.query);
         const event_id = req.query.event_id;
         const { checked, note, generated_details, expenditure, images } = req.body;
 
@@ -114,42 +115,49 @@ module.exports = {
           });
 
           if (!eventDetail) {
-            res.status(404).send('Event not found');
-          }
-          else {
-
-            eventDetail.update({
+            // create one
+            await models.EventDetail.create({
+              event_id: event_id,
               checked,
               note,
               generated_details,
               expenditure
             });
-
-            const eventImages = await models.EventImage.findAll({
-              where: {
-                event_id: event_id
-              }
-            });
-
-            if (eventImages) {
-              for (let i = 0; i < eventImages.length; i++) {
-                const image = eventImages[i];
-                await image.destroy();
-              }
-            }
-
-            if (images) {
-              for (let i = 0; i < images.length; i++) {
-                const image = images[i];
-                await models.EventImage.create({
-                  event_id: event_id,
-                  link: image
-                });
-              }
-            }
-
-            res.status(200).send(eventDetail);
           }
+          else {
+            // update one
+            await eventDetail.update({
+              checked,
+              note,
+              generated_details,
+              expenditure
+            });
+          }
+
+          const eventImages = await models.EventImage.findAll({
+            where: {
+              event_id: event_id
+            }
+          });
+
+          if (eventImages) {
+            for (let i = 0; i < eventImages.length; i++) {
+              const image = eventImages[i];
+              await image.destroy();
+            }
+          }
+
+          if (images) {
+            for (let i = 0; i < images.length; i++) {
+              const image = images[i];
+              await models.EventImage.create({
+                event_id: event_id,
+                link: image
+              });
+            }
+          }
+
+          res.status(200).send(eventDetail);
 
         } catch (e) {
           console.log('Event update error: ', e);
