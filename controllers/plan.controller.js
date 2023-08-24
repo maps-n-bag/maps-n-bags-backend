@@ -1,4 +1,5 @@
 const models = require('../db/models');
+const { all } = require('../routes/plan.route');
 
 module.exports = {
 
@@ -144,28 +145,65 @@ module.exports = {
           res.status(404).send('Plan not found');
           return;
         }
-        const tags = await models.Tag.findAll({
-          attributes: ['id']
-        })
+        const tags = await models.Tag.findAll()
         final_result =[{}]
         
-        for(let i=0;i<tags.length;i++){
-          const places = await models.PlaceActivity.findAll({
+        all_places = await models.Place.findAll({
+          where: {
+            region_id: regions.map(region => region.region_id),
+            type: 'spot'
+          },
+          attributes: ['id','title','rating','rating_count']
+        });
+          all_activities = await models.Activity.findAll(
+            {
+              attributes: ['id','title']
+            }
+          )
+          all_images = await models.Place.findAll({
             where: {
-              tag_id: tags[i].id
+              region_id: regions.map(region => region.region_id),
+              type: 'spot'
             },
-            attributes: ['place_id']
+            include: [{
+              model: models.PlaceImage,
+              attributes: ['link']
+            }],
+            attributes: ['id']
           });
-          let place_details = []
-          if(places.length>0){
-             place_details= places.map(place =>{
-              models.Place.findByPk(place.place_id).then(place_details =>{
-                return place_details.type==='spot' ? place_details : null
+          for (let i=0; i<tags.length; i++) {
+            const tag = tags[i];
+            const placeActivities = await models.PlaceActivity.findAll({
+              where: {
+                tag_id: tag.id,
+              },
+              unique: true,
+              attributes: ['place_id']
+            });
+            result=await Promise.all(placeActivities.map(async(placeActivity) =>{
+              activities= await models.PlaceActivity.findAll({
+                where:{
+                  place_id:placeActivity.place_id,
+                  tag_id:tag.id
+                },
+                attributes: ['activity_id']
               })
-             })
-          }
-          console.log(place_details)
+              place_detail_required =await Promise.all(all_places.filter(place => place.id == placeActivity.place_id))
+              activity_detail_required = activities.map(activity => all_activities.filter(activity_detail => activity_detail.id == activity.activity_id))
+              const images = all_images.find(image => image.id === placeActivity.place_id);
+              return {
+                ...place_detail_required,
+                images: images ? images.dataValues.PlaceImage.link: [],
+                activities:activity_detail_required
+            }
+          }))
+            final_result.push({
+              tag_id:tag.id,
+              tag_name:tag.title,
+              places:result
+          })
         }
+        res.status(200).send(final_result);
       } catch (e) {
         console.log('Explorations get error: ', e);
         res.status(500).send('Internal server error');
