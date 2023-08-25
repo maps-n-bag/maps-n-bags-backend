@@ -6,7 +6,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-
+    // priority: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true,
+    // },
   }, {
     underscored: true,
     tableName: 'tag',
