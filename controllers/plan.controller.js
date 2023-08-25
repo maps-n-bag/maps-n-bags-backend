@@ -147,6 +147,14 @@ module.exports = {
         }
         const tags = await models.Tag.findAll()
         final_result =[{}]
+
+        // all place activities pair in the plan
+        const placeActivitiesPlan = await models.Event.findAll({
+          where: {
+            plan_id: plan_id
+          },
+          attributes: ['place_id', 'activity_id']
+          });
         
         all_places = await models.Place.findAll({
           where: {
@@ -191,6 +199,9 @@ module.exports = {
               place_detail_required =await Promise.all(all_places.filter(place => place.id == placeActivity.place_id))
               activity_detail_required = activities.map(activity => all_activities.filter(activity_detail => activity_detail.id == activity.activity_id))
               const images = all_images.find(image => image.id === placeActivity.place_id);
+              // check whether the place activity already in the plan 
+              // something like this 
+              // placeActivitiesPlan.find(placeActivityPlan => placeActivityPlan.place_id === placeActivity.place_id && placeActivityPlan.activity_id === placeActivity.activity_id)
               return {
                 ...place_detail_required,
                 images: images ? images.dataValues.PlaceImage.link: [],
@@ -213,5 +224,8 @@ module.exports = {
       console.log('Explorations get error: ', e);
       res.status(400).send('Bad request');
     }
-  }
+  },
+  exploreOtherRegion: async (req, res) => {
+    // take those regions that are not in the plan's region but in the plan's region's nearby region
+    }
 }
