@@ -20,7 +20,7 @@ module.exports = {
 
         // for now sending the dummy plan
         const plan_id = 1;
-        createPlan(req.body)
+        // createPlan(req.body)
         const plan = await models.Plan.findByPk(plan_id);
 
         if (!plan) {
