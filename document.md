@@ -280,7 +280,9 @@ Retrieve explorations of a specific travel plan.
                 ],
                 "activities": [
                     {
-                        "id": 1
+                        "id": 1,
+                        "title": "sight seeing",
+                        "in_plan": false
                     }
                 ]
             }
@@ -300,7 +302,9 @@ Retrieve explorations of a specific travel plan.
                 ],
                 "activities": [
                     {
-                        "id": 1
+                        "id": 1,
+                        "title": "sight seeing",
+                        "in_plan": false
                     }
                 ]
             },
@@ -315,7 +319,9 @@ Retrieve explorations of a specific travel plan.
                 ],
                 "activities": [
                     {
-                        "id": 1
+                        "id": 1,
+                        "title": "sight seeing",
+                        "in_plan": false
                     }
                 ]
             },
@@ -329,7 +335,9 @@ Retrieve explorations of a specific travel plan.
                 ],
                 "activities": [
                     {
-                        "id": 1
+                        "id": 1,
+                        "title": "sight seeing",
+                        "in_plan": false
                     }
                 ]
             }
@@ -375,10 +383,14 @@ Retrieve a list of places, activities and tags for other regions.
                         ],
                         "activities": [
                             {
-                                "id": 1
+                                "id": 1,
+                                "title": "sight seeing",
+                                "in_plan": false
                             },
                             {
-                                "id": 5
+                                "id": 6,
+                                "title": "gambling",
+                                "in_plan": false
                             }
                         ]
                     }
@@ -398,10 +410,14 @@ Retrieve a list of places, activities and tags for other regions.
                         ],
                         "activities": [
                             {
-                                "id": 1
+                                "id": 1,
+                                "title": "sight seeing",
+                                "in_plan": false
                             },
                             {
-                                "id": 6
+                                "id": 6,
+                                "title": "gambling",
+                                "in_plan": false
                             }
                         ]
                     }
@@ -421,10 +437,14 @@ Retrieve a list of places, activities and tags for other regions.
                         ],
                         "activities": [
                             {
-                                "id": 1
+                                "id": 1,
+                                "title": "sight seeing",
+                                "in_plan": false
                             },
                             {
-                                "id": 6
+                                "id": 6,
+                                "title": "gambling",
+                                "in_plan": false
                             }
                         ]
                     },
@@ -438,10 +458,14 @@ Retrieve a list of places, activities and tags for other regions.
                         ],
                         "activities": [
                             {
-                                "id": 1
+                                "id": 1,
+                                "title": "sight seeing",
+                                "in_plan": false
                             },
                             {
-                                "id": 3
+                                "id": 3,
+                                "title": "eating",
+                                "in_plan": false
                             }
                         ]
                     }

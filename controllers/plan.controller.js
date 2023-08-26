@@ -202,6 +202,13 @@ async function calculateExploration(res, plan_id, regionIds) {
     return;
   }
 
+  const allActivities = await models.Activity.findAll({
+    where: {
+      id: activities.map(activity => activity.activity_id)
+    },
+    attributes: ['id', 'title']
+  });
+
   // get all the tags
   const tags = await models.Tag.findAll({
     where: {
@@ -253,11 +260,11 @@ async function calculateExploration(res, plan_id, regionIds) {
         let in_plan = events.find(event => event.place_id === place_id
           && event.activity_id === activity.activity_id) != undefined;
 
-        // only add the activity if it is not in the plan already
-        if (!in_plan && activity.tag_id === tag_id && activity.place_id === place_id) {
+        if (activity.tag_id === tag_id && activity.place_id === place_id) {
           placeActivities.push({
             id: activity.activity_id,
-            title: activity.activity_title,
+            title: allActivities.find(allActivity => allActivity.id === activity.activity_id).title,
+            in_plan: in_plan
           });
         }
       }
