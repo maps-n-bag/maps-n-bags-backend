@@ -249,7 +249,7 @@ Retrieve details of a specific travel plan.
 
 ## [Get] Explorations
 ```
-/api/plan/exploration?plan_id=1
+/api/plan/explore?plan_id=1
 ```
 Retrieve explorations of a specific travel plan.
 
@@ -265,280 +265,191 @@ Retrieve explorations of a specific travel plan.
 
 ### Response
 ```json
-{
-    "1": { // tag_id
-        "14": [ // place_id
-            1 // list of activities
-        ],
-        "15": [
-            3
-        ],
-        "17": [
-            1
-        ],
-        "18": [
-            6
-        ],
-        "20": [
-            1
-        ],
-        "21": [
-            9
-        ],
-        "24": [
-            1
-        ],
-        "25": [
-            13
-        ],
-        "27": [
-            1
+[
+    {
+        "tag_id": 1,
+        "tag_name": "Popular",
+        "places": [
+            {
+                "id": 27,
+                "title": "Beach Park",
+                "rating": 4.3,
+                "rating_count": 248,
+                "images": [
+                    "https://lh5.googleusercontent.com/p/AF1QipPRK7NrO8pTfmQNngB2DEDViHJbw4INVffsVRLd=w426-h240-k-no"
+                ],
+                "activities": [
+                    {
+                        "id": 1
+                    }
+                ]
+            }
         ]
     },
-    "2": {
-        "14": [
-            1
-        ],
-        "15": [
-            3
-        ],
-        "17": [
-            1
-        ],
-        "18": [
-            6
-        ],
-        "21": [
-            1
-        ],
-        "22": [
-            10
-        ],
-        "24": [
-            1
-        ],
-        "25": [
-            13
-        ],
-        "27": [
-            1
-        ]
-    },
-    "3": {
-        "14": [
-            1
-        ],
-        "15": [
-            3
-        ],
-        "18": [
-            1
-        ],
-        "19": [
-            7
-        ],
-        "21": [
-            1
-        ],
-        "22": [
-            10
-        ],
-        "24": [
-            1
-        ],
-        "25": [
-            13
-        ]
-    },
-    "4": {
-        "15": [
-            1
-        ],
-        "16": [
-            4
-        ],
-        "18": [
-            1
-        ],
-        "19": [
-            7
-        ],
-        "21": [
-            1
-        ],
-        "22": [
-            10
-        ],
-        "25": [
-            1
-        ],
-        "26": [
-            14
-        ]
-    },
-    "5": {
-        "15": [
-            1
-        ],
-        "16": [
-            4
-        ],
-        "18": [
-            1
-        ],
-        "19": [
-            7
-        ],
-        "22": [
-            1
-        ],
-        "23": [
-            11
-        ],
-        "25": [
-            1
-        ],
-        "26": [
-            14
-        ]
-    },
-    "6": {
-        "15": [
-            1
-        ],
-        "16": [
-            4
-        ],
-        "19": [
-            1
-        ],
-        "20": [
-            8
-        ],
-        "22": [
-            1
-        ],
-        "23": [
-            11
-        ],
-        "25": [
-            1
-        ],
-        "26": [
-            14
-        ]
-    },
-    "7": {
-        "16": [
-            1
-        ],
-        "17": [
-            5
-        ],
-        "19": [
-            1
-        ],
-        "20": [
-            8
-        ],
-        "22": [
-            1
-        ],
-        "23": [
-            11
-        ],
-        "26": [
-            1
-        ],
-        "27": [
-            15
-        ]
-    },
-    "8": {
-        "14": [
-            2
-        ],
-        "16": [
-            1
-        ],
-        "17": [
-            5
-        ],
-        "19": [
-            1
-        ],
-        "20": [
-            8
-        ],
-        "23": [
-            1
-        ],
-        "24": [
-            12
-        ],
-        "26": [
-            1
-        ],
-        "27": [
-            15
-        ]
-    },
-    "9": {
-        "14": [
-            2
-        ],
-        "16": [
-            1
-        ],
-        "17": [
-            5
-        ],
-        "20": [
-            1
-        ],
-        "21": [
-            9
-        ],
-        "23": [
-            1
-        ],
-        "24": [
-            12
-        ],
-        "26": [
-            1
-        ],
-        "27": [
-            15
-        ]
-    },
-    "10": {
-        "14": [
-            2
-        ],
-        "17": [
-            1
-        ],
-        "18": [
-            6
-        ],
-        "20": [
-            1
-        ],
-        "21": [
-            9
-        ],
-        "23": [
-            1
-        ],
-        "24": [
-            12
-        ],
-        "27": [
-            1
+    {
+        "tag_id": 2,
+        "tag_name": "Hidden gems",
+        "places": [
+            {
+                "id": 27,
+                "title": "Beach Park",
+                "rating": 4.3,
+                "rating_count": 248,
+                "images": [
+                    "https://lh5.googleusercontent.com/p/AF1QipPRK7NrO8pTfmQNngB2DEDViHJbw4INVffsVRLd=w426-h240-k-no"
+                ],
+                "activities": [
+                    {
+                        "id": 1
+                    }
+                ]
+            },
+            
+            {
+                "id": 14,
+                "title": "Cox's Bazar Beach",
+                "rating": 4.5,
+                "rating_count": 1386,
+                "images": [
+                    "https://lh5.googleusercontent.com/p/AF1QipMI30IqgSPF0LvwCWyD3a5WMHl51B3KAeMuQCrL=w408-h306-k-no"
+                ],
+                "activities": [
+                    {
+                        "id": 1
+                    }
+                ]
+            },
+            {
+                "id": 21,
+                "title": "Laboni Beach",
+                "rating": 4.5,
+                "rating_count": 910,
+                "images": [
+                    "https://lh5.googleusercontent.com/p/AF1QipOTwDDFbxJkvp4fm6sEFL0XKrvsfJqNcjeaC4Dj=w408-h306-k-no"
+                ],
+                "activities": [
+                    {
+                        "id": 1
+                    }
+                ]
+            }
         ]
     }
-}
+]
+```
+
+## [Get] Explore Other Regions
+```
+/api/plan/explore/other?plan_id=1
+```
+Retrieve a list of places, activities and tags for other regions.
+
+### Endpoint
+### Auth
+- Required
+
+### Query Parameters
+
+| Parameter | Type   | Description             |
+|-----------|--------|-------------------------|
+| plan_id   | number | ID of the travel plan  |
+
+### Response
+```json
+[
+    {
+        "region_id": 2,
+        "region_name": "Bandarban",
+        "tags_places_activities": [
+            {
+                "tag_id": 1,
+                "tag_name": "Popular",
+                "places": [
+                    {
+                        "id": 31,
+                        "title": "Sangu River View Point",
+                        "rating": 4,
+                        "rating_count": 22,
+                        "images": [
+                            "https://lh5.googleusercontent.com/p/AF1QipNhJlq3fPpab5hIxyc4IN8noQvHoW3t4AllrQI=w408-h306-k-no"
+                        ],
+                        "activities": [
+                            {
+                                "id": 1
+                            },
+                            {
+                                "id": 5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "tag_id": 2,
+                "tag_name": "Hidden gems",
+                "places": [
+                    {
+                        "id": 32,
+                        "title": "মেঘলা পর্যটন কমপ্লেক্স",
+                        "rating": 4.2,
+                        "rating_count": 4518,
+                        "images": [
+                            "https://lh5.googleusercontent.com/p/AF1QipM_bx3nLdm61ZiSq_er2OEchgje_DPhCSLd-oYn=w408-h306-k-no"
+                        ],
+                        "activities": [
+                            {
+                                "id": 1
+                            },
+                            {
+                                "id": 6
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "tag_id": 3,
+                "tag_name": "Culture",
+                "places": [
+                    {
+                        "id": 32,
+                        "title": "মেঘলা পর্যটন কমপ্লেক্স",
+                        "rating": 4.2,
+                        "rating_count": 4518,
+                        "images": [
+                            "https://lh5.googleusercontent.com/p/AF1QipM_bx3nLdm61ZiSq_er2OEchgje_DPhCSLd-oYn=w408-h306-k-no"
+                        ],
+                        "activities": [
+                            {
+                                "id": 1
+                            },
+                            {
+                                "id": 6
+                            }
+                        ]
+                    },
+                    {
+                        "id": 29,
+                        "title": "Nilachal Tourist Center",
+                        "rating": 4.5,
+                        "rating_count": 5438,
+                        "images": [
+                            "https://lh5.googleusercontent.com/p/AF1QipMuAvdXO3DvYZ4gHz2k6qYbCiF509rKVFEc015l=w408-h306-k-no"
+                        ],
+                        "activities": [
+                            {
+                                "id": 1
+                            },
+                            {
+                                "id": 3
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
 ```
 
 # Event
