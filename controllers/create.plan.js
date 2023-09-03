@@ -19,14 +19,14 @@ module.exports.createPlan = async(body)=>{
     }
     console.log(is_tag_provided);
     const placeActivities= await Promise.resolve( is_tag_provided?await findMatchingPlaceActivitiesUserPreference({
-        number_of_days:number_of_days,
+        number_of_event:number_of_days*3,
         regions:regions,
         tags:tags
     }):await findMatchingPlaceActivitiesDefault({
-        number_of_days:number_of_days,
+        number_of_event:number_of_days*3,
         regions:regions
     }));
-    console.log(placeActivities);
+    
 }
 const findMatchingPlaceActivitiesUserPreference = async(props)=>{
 
@@ -37,7 +37,7 @@ const findMatchingPlaceActivitiesDefault = async(props)=>{
             ['id', 'ASC'],
         ],
     });
-    let totalPlaces = props.number_of_days*3;
+    let totalPlaces = props.number_of_event;
     let totalPlacesActivityArray = [];
     let interestedPlaces = await models.Place.findAll({
         where:{
