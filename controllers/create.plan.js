@@ -37,9 +37,9 @@ const findMatchingPlaceActivitiesDefault = async(props)=>{
             ['id', 'ASC'],
         ],
     });
-    let totalPlaces = props.number_of_days;
-    let totalPlacesArray = [];
-    const interestedPlaces = await models.Place.findAll({
+    let totalPlaces = props.number_of_days*3;
+    let totalPlacesActivityArray = [];
+    let interestedPlaces = await models.Place.findAll({
         where:{
             region_id:props.regions
         },
@@ -48,7 +48,10 @@ const findMatchingPlaceActivitiesDefault = async(props)=>{
             ['rating_count', 'DESC']
         ]
     });
-    for(i=0;i<tags.length && totalPlaces!=0;i++){
+    interestedPlaces=interestedPlaces.map((place)=>{
+        return place.dataValues.id;
+    });
+    for(let i=0;i<tags.length && totalPlaces!=0;i++){
         const placeActivities = await models.PlaceActivity.findAll({
             where:{
                 tag_id:tags[i].id
@@ -57,23 +60,26 @@ const findMatchingPlaceActivitiesDefault = async(props)=>{
         });
         if(placeActivities.length>0){
             if(placeActivities.length<totalPlaces){
-                for(j=0;j<placeActivities.length;j++){
+                for(let j=0;j<placeActivities.length;j++){
                     if(interestedPlaces.includes(placeActivities[j].dataValues.place_id)){
-                        totalPlacesArray.push(placeActivities[j].dataValues)
+                        totalPlacesActivityArray.push(placeActivities[j].dataValues)
                         totalPlaces = totalPlaces-1;
                     }
                 }
                 
             }
             else{
-                for(j=0;j<interestedPlaces.length && totalPlaces!=0;j++){
+                for(let j=0;j<interestedPlaces.length && totalPlaces!=0;j++){
                     if(interestedPlaces.includes(placeActivities[j].dataValues.place_id)){
-                        totalPlacesArray.push(placeActivities[j].dataValues)
+                        totalPlacesActivityArray.push(placeActivities[j].dataValues)
                         totalPlaces = totalPlaces-1;
                     }
                 }
             }
         }
+        if(totalPlaces==0){
+            break;
+        }
     }
-    return totalPlacesArray;
+    return totalPlacesActivityArray;
 }
