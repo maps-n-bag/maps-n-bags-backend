@@ -46,7 +46,7 @@ module.exports = {
       }
     },
 
-    getEventDetail:
+  getEventDetail:
     async (req, res) => {
 
       try {
@@ -82,8 +82,8 @@ module.exports = {
             }
           });
 
-          const result = {...eventDetail.dataValues, images: eventImages.map(image => image.link)};
-          
+          const result = { ...eventDetail.dataValues, images: eventImages.map(image => image.link) };
+
           res.status(200).send(result);
 
         } catch (e) {
@@ -95,10 +95,10 @@ module.exports = {
         console.log('Event get error: ', e);
         res.status(400).send('Bad request');
       }
-    
+
     },
 
-    updateEventDetail:
+  updateEventDetail:
     async (req, res) => {
 
       try {
@@ -169,7 +169,7 @@ module.exports = {
         res.status(400).send('Bad request');
       }
 
-  }
+    }
 
 }
 
@@ -206,7 +206,7 @@ async function calculateEventsList(res, plan_id, noOfDays, day) {
     const firstEventRegionId = firstEventPlace.region_id;
     const firstEventRegion = await models.Region.findByPk(firstEventRegionId);
     previousEventPlaceId = firstEventRegion.representative_place_id;
-  } 
+  }
   // for all the other days and events, the journey is from the previous event to the current event
   else {
     const previousDayEvents = await models.Event.findAll({
@@ -242,7 +242,7 @@ async function calculateEventsList(res, plan_id, noOfDays, day) {
       attributes: ['journey_type', 'distance', 'est_time']
     });
     modifiedJourney = null;
-    if(journey) {
+    if (journey) {
       const previousEventPlace = await models.Place.findByPk(previousEventPlaceId);
       const currentEventPlace = await models.Place.findByPk(currentEventPlaceId);
       modifiedJourney = {
@@ -251,12 +251,13 @@ async function calculateEventsList(res, plan_id, noOfDays, day) {
         est_time: journey.est_time,
         from: previousEventPlace.title,
         to: currentEventPlace.title
+      }
     }
-  }
     result.push({
       journey: modifiedJourney,
       event: {
         id: currentEvent.id,
+        plan_id: currentEvent.plan_id,
         start_time: currentEvent.start_time,
         end_time: currentEvent.end_time,
         place_id: currentEvent.place_id,
