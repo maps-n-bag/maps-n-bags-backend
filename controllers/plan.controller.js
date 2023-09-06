@@ -19,14 +19,14 @@ module.exports = {
         // send the plan to the user
 
         // for now sending the dummy plan
-        const plan_id = 1;
-        createPlan(req.body)
-        const plan = await models.Plan.findByPk(plan_id);
+        
+        const plan_id=await createPlan(req.body)
 
-        if (!plan) {
+        if (plan_id==0) {
           res.status(404).send('Plan not found');
         }
         else {
+          const plan = await models.Plan.findByPk(plan_id);
           res.status(201).send(plan);
         }
 

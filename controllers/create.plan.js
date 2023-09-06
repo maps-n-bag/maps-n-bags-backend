@@ -112,7 +112,7 @@ module.exports.createPlan = async(body)=>{
     plan_title=plan_title.map((title)=>{
         return title.dataValues.title;
     });
-    plan_title=plan_title.join(' ')+' tour';
+    plan_title=plan_title.join(' ')+' '+number_of_days+' Days tour';
 
     let plan = await models.Plan.create({
         title:plan_title,
@@ -207,6 +207,7 @@ module.exports.createPlan = async(body)=>{
             console.log(currentTimestamp);
         }
     }
+    return plan.id;
 }
 const subtractTime = (timestamp, hours, minutes, seconds, milliseconds) => {
     timestamp.setHours(timestamp.getHours() - hours);
