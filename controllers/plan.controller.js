@@ -1,6 +1,9 @@
 const { where } = require('sequelize');
 const models = require('../db/models');
 const { createPlan } = require('./create.plan')
+const { getUpdatePlan } = require('./update.plan')
+
+
 module.exports = {
 
   createPlan:
@@ -32,6 +35,19 @@ module.exports = {
 
       } catch (e) {
         console.log('Plan post error: ', e);
+        res.status(400).send('Bad request');
+      }
+    },
+
+    updatePlan:
+    async (req, res) => {
+      console.log('req.body: ', req.body);
+      const plan_id=req.query.plan_id
+      if(plan_id){
+        const plan=await getUpdatePlan(plan_id,req.body)
+        res.status(201).send(plan);
+      }
+      else{
         res.status(400).send('Bad request');
       }
     },
@@ -98,6 +114,7 @@ module.exports = {
       }
 
     },
+
 
   getExploreOtherRegions: async (req, res) => {
     // take those regions that are not in the plan's region but in the plan's region's nearby region
@@ -171,6 +188,9 @@ module.exports = {
       console.log('Explore other region error: ', e);
       res.status(400).send('Bad request');
     }
+  },
+  
+  updatePlan:async(req,res)=>{
   }
 }
 
