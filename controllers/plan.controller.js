@@ -44,7 +44,7 @@ module.exports = {
       console.log('req.body: ', req.body);
       const plan_id=req.query.plan_id
       if(plan_id){
-        const plan=await getUpdatePlan(plan_id,req.body)
+        const plan=await getUpdatePlan(req, res)
         res.status(201).send(plan);
       }
       else{
@@ -188,9 +188,6 @@ module.exports = {
       console.log('Explore other region error: ', e);
       res.status(400).send('Bad request');
     }
-  },
-  
-  updatePlan:async(req,res)=>{
   }
 }
 

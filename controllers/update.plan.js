@@ -3,8 +3,10 @@ const MAX_ACTIVITY_PER_DAY = 3;
 
 
 
-module.exports.getUpdatePlan = async (plan_id,body) => {
+module.exports.getUpdatePlan = async (req,res) => {
     try {
+        const plan_id = req.query.plan_id;
+        const body = req.body;
         const { add,remove } = body;
         const plan = await models.Plan.findByPk(plan_id);
 
@@ -77,13 +79,13 @@ module.exports.getUpdatePlan = async (plan_id,body) => {
                             }
                         }
                         if(!bool_temp){
-                            const event = await models.Event.Create({
+                            const event = await models.Event.create({
                                 plan_id: plan_id,
                                 place_id: add[i].place_id,
                                 activity_id: add[i].activity_id,
                                 day: 1,
-                                start_time: '00:00:00',
-                                end_time: '00:00:00'
+                                start_time: new Date(plan.start_date),
+                                end_time: new Date(plan.start_date)
                             });
                             placeActivities.push({
                                 event_id: event.id,
@@ -102,6 +104,7 @@ module.exports.getUpdatePlan = async (plan_id,body) => {
                 return;
             }
 
+            console.log(placeActivities.length);
 
             // setup the necessary variables
             let number_of_days =Math.ceil(placeActivities.length / MAX_ACTIVITY_PER_DAY)
@@ -115,6 +118,19 @@ module.exports.getUpdatePlan = async (plan_id,body) => {
                 plan.end_date = end_date;
                 await plan.save();
             }
+
+
+
+            // Get all the regions of the plan
+            let regions= await models.PlanRegion.findAll({
+                where:{
+                    plan_id:plan_id
+                },
+                attributes: ['region_id']
+            });
+            regions=regions.map((region)=>{
+                return region.dataValues.region_id;
+            });
 
 
             // Get all the regions of the plan for the starting region
@@ -192,7 +208,7 @@ module.exports.getUpdatePlan = async (plan_id,body) => {
                 // get the number of activities for the current day
                 let activity_count = MAX_ACTIVITY_PER_DAY;
                 if(i==number_of_days){
-                    activity_count = placeActivities.length%MAX_ACTIVITY_PER_DAY;
+                    activity_count = placeActivities.length;
                 }
 
 
@@ -270,8 +286,8 @@ module.exports.getUpdatePlan = async (plan_id,body) => {
                     // update the event
                     let activity = await models.Event.findByPk(plan_activity_for_current_day[j].event_id);
                     activity.day = i;
-                    activity.start_time = currentTimestamp.getHours()+':'+currentTimestamp.getMinutes()+':'+currentTimestamp.getSeconds();
-                    activity.end_time = addTime(currentTimestamp,Math.floor(activity_time/60),activity_time%60,0,0).getHours()+':'+addTime(currentTimestamp,Math.floor(activity_time/60),activity_time%60,0,0).getMinutes()+':'+addTime(currentTimestamp,Math.floor(activity_time/60),activity_time%60,0,0).getSeconds();
+                    activity.start_time = currentTimestamp;
+                    activity.end_time = addTime(currentTimestamp,Math.floor(activity_time/60),activity_time%60,0,0);
                     await activity.save();
 
 
