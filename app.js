@@ -14,7 +14,7 @@ const md = Markdown({
     return `<pre class="hljs"><code>${code}</code></pre>`;
   },
 });
-
+process.env.TZ = 'Asia/Dhaka'
 const express = require("express")
 const app = express()
 const cors = require("cors")
