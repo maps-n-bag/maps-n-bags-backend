@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 module.exports =
   async (req, res, next) => {
 
-    // if (process.env.NODE_ENV !== "development")
-    //   return next();
+    if (process.env.NODE_ENV === "development")
+      return next();
 
     try {
       const authHeader = req.headers["authorization"];

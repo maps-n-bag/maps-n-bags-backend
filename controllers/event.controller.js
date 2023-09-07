@@ -17,8 +17,8 @@ module.exports = {
             return;
           }
 
-          const start_date = plan.start_date.getDate();
-          const end_date = plan.end_date.getDate();
+          const start_date = plan.start_date;
+          const end_date = plan.end_date;
           const noOfDays = (end_date - start_date) + 1;
           console.log('noOfDays: ', noOfDays);
 
