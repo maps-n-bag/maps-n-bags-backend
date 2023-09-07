@@ -78,6 +78,65 @@ module.exports = {
       }
     },
 
+  getAllPlans:
+    async (req, res) => {
+
+      try {
+        const user_id = req.query.user_id;
+
+        try {
+          const plans = await models.Plan.findAll({
+            where: {
+              user_id: user_id
+            }
+          });
+
+          if (!plans) {
+            return res.status(404).send('Plans not found');
+          }
+
+          return res.status(200).send(plans);
+
+        } catch (e) {
+          console.log('Plans get error: ', e);
+          return res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Plans get error: ', e);
+        return res.status(400).send('Bad request');
+      }
+    },
+
+  deletePlan:
+    async (req, res) => {
+
+      try {
+        const plan_id = req.query.id;
+
+        try {
+          const plan = await models.Plan.findByPk(plan_id);
+
+          if (!plan) {
+            return res.status(404).send('Plan not found');
+          }
+
+          await plan.destroy();
+
+          return res.status(200).send('Plan deleted');
+
+        } catch (e) {
+          console.log('Plan delete error: ', e);
+          return res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Plan delete error: ', e);
+        return res.status(400).send('Bad request');
+      }
+    },
+    
+
   getExplorations:
     async (req, res) => {
 
