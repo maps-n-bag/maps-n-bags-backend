@@ -19,7 +19,7 @@ module.exports = {
 
           const start_date = plan.start_date;
           const end_date = plan.end_date;
-          const noOfDays = (end_date - start_date) + 1;
+          const noOfDays = (end_date - start_date) / (1000 * 60 * 60 * 24) + 1;
           console.log('noOfDays: ', noOfDays);
 
           let result = null;
