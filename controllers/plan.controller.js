@@ -41,10 +41,11 @@ module.exports = {
 
   updatePlan:
     async (req, res) => {
-      const plan_id = req.query.plan_id
-      if (plan_id) {
-        const plan = await getUpdatePlan(req, res, plan_id)
-        return res.status(201).send(plan);
+      console.log('req.body: ', req.body);
+      const plan_id=req.query.plan_id
+      if(plan_id){
+        const plan=await getUpdatePlan(req, res)
+        res.status(201).send(plan);
       }
       else {
         return res.status(400).send('Bad request');
