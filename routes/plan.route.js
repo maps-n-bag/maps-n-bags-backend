@@ -8,5 +8,6 @@ router.post('/', auth, controller.createPlan)
 router.get('/', auth, controller.getPlan)
 router.get('/explore/other', auth, controller.getExploreOtherRegions)
 router.get('/explore', auth, controller.getExplorations)
+router.post('/update', controller.updatePlan)
 
 module.exports = router
