@@ -8,7 +8,9 @@ module.exports = {
 
   getUser:
     async (req, res) => {
+      // console.log("uid: ", uid);
       const user_id = req.query.id;
+      // if (user_id !== uid) return res.status(401).json({ msg: "not authorized" });
       try {
         const user = await models.User.findByPk(user_id);
         if (user) {
@@ -30,26 +32,30 @@ module.exports = {
         const { username, first_name, last_name, email, password, profile_pic, cover_pic } = req.body;
         const hashedPassword = bcrypt.hashSync(password, 10);
 
-        try {
-          const user = await models.User.create({
-            username,
-            first_name,
-            last_name,
-            email,
-            password: hashedPassword,
-            profile_pic,
-            cover_pic
-          });
-          res.status(201).send(user);
-
-        } catch (e) {
-          console.log('User post error: ', e);
-          res.status(500).send('Internal server error');
+        const users = await models.User.findAll();
+        const usernameClash = users.find(user => user.username === username);
+        const emailClash = users.find(user => user.email === email);
+        if (usernameClash) {
+          return res.status(409).send('Username already exists');
         }
+        if (emailClash) {
+          return res.status(409).send('Email already exists');
+        }
+
+        const user = await models.User.create({
+          username,
+          first_name,
+          last_name,
+          email,
+          password: hashedPassword,
+          profile_pic,
+          cover_pic
+        });
+        return res.status(201).send(user);
 
       } catch (e) {
         console.log('User post error: ', e);
-        res.status(400).send('Bad request');
+        return res.status(400).send('Bad request');
       }
     },
 
@@ -94,11 +100,10 @@ module.exports = {
         const user = await models.User.findOne({ where: { username } });
 
         if (user) {
-          console.log(user);
+          // console.log(user);
           const match = bcrypt.compareSync(password, user.password);
 
           if (match) {
-            console.log('match');
             const payload = { id: user.id };
             const token = jwt.sign(payload, process.env.JWT_SECRET);
 

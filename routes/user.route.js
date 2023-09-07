@@ -1,12 +1,16 @@
 const express = require("express")
 const router = express.Router()
 
+const auth = require('../middleware/auth.middleware')
 const controller = require('../controllers/user.controller')
 
-router.get('/', controller.getUser)
-router.post('/', controller.createUser)
-router.put('/', controller.updateUser)
+// auth
+router.get('/', auth, controller.getUser)
+router.put('/password', auth, controller.updatePassword)
+router.put('/', auth, controller.updateUser)
+
+// no auth
 router.post('/login', controller.login)
-router.put('/password', controller.updatePassword)
+router.post('/', controller.createUser)
 
 module.exports = router
