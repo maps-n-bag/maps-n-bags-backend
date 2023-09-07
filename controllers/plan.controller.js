@@ -22,10 +22,10 @@ module.exports = {
         // send the plan to the user
 
         // for now sending the dummy plan
-        
-        const plan_id=await createPlan(req.body)
 
-        if (plan_id==0) {
+        const plan_id = await createPlan(req.body)
+
+        if (plan_id == 0) {
           res.status(404).send('Plan not found');
         }
         else {
@@ -39,16 +39,15 @@ module.exports = {
       }
     },
 
-    updatePlan:
+  updatePlan:
     async (req, res) => {
-      console.log('req.body: ', req.body);
-      const plan_id=req.query.plan_id
-      if(plan_id){
-        const plan=await getUpdatePlan(plan_id,req.body)
-        res.status(201).send(plan);
+      const plan_id = req.query.plan_id
+      if (plan_id) {
+        const plan = await getUpdatePlan(req, res, plan_id)
+        return res.status(201).send(plan);
       }
-      else{
-        res.status(400).send('Bad request');
+      else {
+        return res.status(400).send('Bad request');
       }
     },
 
@@ -189,9 +188,7 @@ module.exports = {
       res.status(400).send('Bad request');
     }
   },
-  
-  updatePlan:async(req,res)=>{
-  }
+
 }
 
 async function calculateExploration(res, plan_id, regionIds) {

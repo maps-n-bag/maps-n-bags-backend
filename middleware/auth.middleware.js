@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 module.exports =
   async (req, res, next) => {
 
-    if (process.env.NODE_ENV !== "development")
-      next();
+    // if (process.env.NODE_ENV !== "development")
+    //   return next();
 
     try {
       const authHeader = req.headers["authorization"];
@@ -28,7 +28,7 @@ module.exports =
           req.auth_user_id = id;
           // now the next method has the responsibility to check
 
-          next();
+          return next();
         }
       );
     } catch (e) {

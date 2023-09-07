@@ -3,11 +3,11 @@ module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define('Event', {
 
     start_time: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false,
     },
     end_time: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false,
     },
     day: {
