@@ -5,7 +5,7 @@ const MAX_ACTIVITY_PER_DAY = 3;
 
 module.exports.getUpdatePlan = async (req, res) => {
     try {
-        const plan_id = req.query.plan_id;
+        const plan_id = parseInt(req.query.plan_id);
         const body = req.body;
         const { add, remove } = body;
         const plan = await models.Plan.findByPk(plan_id);
@@ -44,6 +44,7 @@ module.exports.getUpdatePlan = async (req, res) => {
                         activity_id: remove[i].activity_id
                     }
                 })
+                console.log(activity);
                 if (activity) {
                     await activity.destroy();
                 }
@@ -114,6 +115,7 @@ module.exports.getUpdatePlan = async (req, res) => {
 
         // update the plan with the new number of days
         const prevNumberOfDays = (plan.end_date - plan.start_date) / (1000 * 60 * 60 * 24) + 1;
+        console.log('prevNumberOfDays: ', prevNumberOfDays, ' number_of_days: ', number_of_days);
         if (prevNumberOfDays != number_of_days) {
             end_date.setDate(end_date.getDate() + number_of_days - 1);
             plan.end_date = end_date;
