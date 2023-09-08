@@ -176,9 +176,9 @@ module.exports = {
 
 async function calculateEventsList(res, plan_id, noOfDays, day) {
 
-  // return a list of {journey, events} objects
-  // journey: {journey_type, distance, est_time}
-  // event: {id, start_time, end_time, place_id, activity, description}
+  const activities = await models.Activity.findAll({
+    order: [ ['id', 'ASC'] ]
+  });
 
   const currentDayEvents = await models.Event.findAll({
     where: {
@@ -261,7 +261,7 @@ async function calculateEventsList(res, plan_id, noOfDays, day) {
         start_time: currentEvent.start_time,
         end_time: currentEvent.end_time,
         place_id: currentEvent.place_id,
-        activity: currentEvent.activity,
+        activity: activities[currentEvent.activity_id - 1].title,
       }
     });
 
