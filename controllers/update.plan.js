@@ -44,7 +44,6 @@ module.exports.getUpdatePlan = async (req, res) => {
                         activity_id: remove[i].activity_id
                     }
                 })
-                console.log(activity);
                 if (activity) {
                     await activity.destroy();
                 }
