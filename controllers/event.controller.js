@@ -268,47 +268,37 @@ async function calculateEventsList(res, plan_id, noOfDays, day) {
     previousEventPlaceId = currentEventPlaceId;
   }
 
-  // // for the last day, the journey is from the last event to the last event's region's center
-  // if (day == noOfDays) {
-  //   const lastEvent = currentDayEvents[currentDayEvents.length - 1];
-  //   const lastEventPlaceId = lastEvent.place_id;
-  //   const lastEventPlace = await models.Place.findByPk(lastEventPlaceId);
-  //   const lastEventRegionId = lastEventPlace.region_id;
-  //   const lastEventRegion = await models.Region.findByPk(lastEventRegionId);
-  //   const lastEventRegionCenterId = lastEventRegion.representative_place_id;
-  //   const journey = await models.Distance.findOne({
-  //     where: {
-  //       [Op.or]: [
-  //         {
-  //           first_place_id: lastEventPlaceId,
-  //           second_place_id: lastEventRegionCenterId
-  //         },
-  //         {
-  //           first_place_id: lastEventRegionCenterId,
-  //           second_place_id: lastEventPlaceId
-  //         }
-  //       ]
-  //     },
-  //     attributes: ['journey_type', 'distance', 'est_time']
-  //   });
+  // for the last day, the journey is from the last event to the last event's region's center
+  if (day == noOfDays) {
+    const lastEvent = currentDayEvents[currentDayEvents.length - 1];
+    const lastEventPlaceId = lastEvent.place_id;
+    const lastEventPlace = await models.Place.findByPk(lastEventPlaceId);
+    const lastEventRegionId = lastEventPlace.region_id;
+    const lastEventRegion = await models.Region.findByPk(lastEventRegionId);
+    const lastEventRegionCenterId = lastEventRegion.representative_place_id;
+    let journey = await models.Distance.findOne({
+      where: {
+        [Op.or]: [
+          {
+            first_place_id: lastEventPlaceId,
+            second_place_id: lastEventRegionCenterId
+          },
+          {
+            first_place_id: lastEventRegionCenterId,
+            second_place_id: lastEventPlaceId
+          }
+        ]
+      },
+      attributes: ['journey_type', 'distance', 'est_time']
+    });
 
-  //   // create an extra event for the journey from the last event to the last event's region's center
-  //   // const event = await models.Event.create({
-  //   //   plan_id: plan_id,
-  //   //   day: day,
-  //   //   start_time: lastEvent.end_time + journey.est_time,
-  //   //   end_time: lastEvent.end_time + journey.est_time,
-  //   //   place_id: lastEventRegionCenterId,
-  //   //   // activity_id: 0
-  //   // },
-  //   // attributes = ['id', 'start_time', 'end_time', 'place_id']
-  //   // );
+    journey = {...journey.dataValues, from: lastEventPlace.title, to: lastEventRegion.title}
 
-  //   // result.push({
-  //   //   journey: journey,
-  //   //   event: event
-  //   // });
-  // }
+    result.push({
+      journey: journey,
+      event: null
+    });
+  }
 
   return result;
 }
