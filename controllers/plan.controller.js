@@ -272,7 +272,10 @@ module.exports = {
           final_plans_details = await models.Plan.findAll({
             where: {
               id: final_plans
-            }
+            },
+            order: [
+              ['copy_count', 'DESC']
+            ]
           });
           final_plans_details = final_plans_details.map(plan => {
             return plan.dataValues;
@@ -288,6 +291,85 @@ module.exports = {
         return res.status(400).send('Bad request');
       }
     },
+  copyPlan:
+    async (req, res) => {
+      try {
+        const plan_id = req.body.plan_id;
+        const user_id = req.body.user_id;
+        const start_date_raw = req.body.start_date;
+
+        console.log('req.body: ', req.body)
+
+        if (!plan_id || !user_id) {
+          return res.status(400).send('Bad request');
+        }
+        const plan = await models.Plan.findOne({
+          where: {
+            id: plan_id,
+            [models.Sequelize.Op.not]: [{ user_id: user_id }]
+          }
+        });
+        if (!plan) {
+          return res.status(404).send('Plan not Copyable');
+        }
+
+
+        plan.copy_count = plan.copy_count + 1;
+        await plan.save();
+
+
+        const start_date = new Date(start_date_raw);
+        const day_diff_millis = start_date.getTime() - plan.start_date.getTime();
+        const end_date = new Date(plan.end_date);
+        end_date.setTime(end_date.getTime() + day_diff_millis);
+
+        const plan_regions = await models.PlanRegion.findAll({
+          where: {
+            plan_id: plan_id
+          }
+        });
+
+        const new_plan = await models.Plan.create({
+          title: plan.title,
+          description: plan.description,
+          public: false,
+          image: plan.image,
+          start_date: start_date,
+          end_date: end_date,
+          user_id: user_id
+        });
+        for(plan_region of plan_regions) {
+          await models.PlanRegion.create({
+            plan_id: new_plan.id,
+            region_id: plan_region.dataValues.region_id
+          });
+        }
+        const plan_events = await models.Event.findAll({
+          where: {
+            plan_id: plan_id
+          }
+        });
+        for(plan_event of plan_events) {
+          const start_time = new Date(plan_event.dataValues.start_time);
+          start_time.setTime(start_time.getTime() + day_diff_millis);
+          const end_time = new Date(plan_event.dataValues.end_time);
+          end_time.setTime(end_time.getTime() + day_diff_millis);
+          await models.Event.create({
+            plan_id: new_plan.id,
+            place_id: plan_event.dataValues.place_id,
+            activity_id: plan_event.dataValues.activity_id,
+            start_time: start_time,
+            end_time: end_time,
+            day: plan_event.dataValues.day
+          });
+        }
+        return res.status(201).send(new_plan);
+
+      } catch (e) {
+        console.log('Plans get error: ', e);
+        return res.status(400).send('Bad request');
+      }
+      },
 
   getExplorations:
     async (req, res) => {
