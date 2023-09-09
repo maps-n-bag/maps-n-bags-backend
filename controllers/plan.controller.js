@@ -42,9 +42,9 @@ module.exports = {
   updatePlan:
     async (req, res) => {
       console.log('req.body: ', req.body);
-      const plan_id=req.query.plan_id
-      if(plan_id){
-        const plan=await getUpdatePlan(req, res)
+      const plan_id = req.query.plan_id
+      if (plan_id) {
+        const plan = await getUpdatePlan(req, res)
         res.status(201).send(plan);
       }
       else {
@@ -138,7 +138,7 @@ module.exports = {
 
   editPlan:
     async (req, res) => {
-      
+
       try {
         const plan_id = req.query.plan_id;
         const { title, description, public, image } = req.body;
@@ -173,7 +173,7 @@ module.exports = {
 
   togglePlanPublic:
     async (req, res) => {
-      
+
       try {
         const plan_id = req.query.plan_id;
 
@@ -200,6 +200,93 @@ module.exports = {
         return res.status(400).send('Bad request');
       }
 
+    },
+  getOtherPlans:
+    async (req, res) => {
+      try {
+        console.log('req.body: ', req.body);
+        const regions = req.body.regions;
+        const user_id = req.body.user_id;
+
+        if (regions && regions.length == 0) {
+          return res.status(400).send('Bad request');
+        }
+        try {
+          let final_plans = [];
+          for (region of regions) {
+            let plans = await models.PlanRegion.findAll({
+              where: {
+                region_id: region
+              },
+              include: [{
+                model: models.Plan,
+                where: {
+                  [models.Sequelize.Op.not]: [{ user_id: user_id }],
+                  public: true
+                }
+              }]
+            });
+            if (!plans) {
+              return res.status(404).send('Plans not found');
+            }
+            plans_id = plans.map(plan => plan.dataValues.plan_id);
+            if (plans.length == 0) {
+              return res.status(404).send('Plans not found');
+            }
+          
+            let previous_plans = final_plans.length == 0 ? [] : [...final_plans];
+            final_plans = plans_id.map(plan_id => {
+              if (final_plans.length == 0) {
+                return plan_id;
+              }
+              if (previous_plans.includes(plan_id)) {
+                return plan_id;
+              }
+            });
+          }
+          
+          if (final_plans.length == 0) {
+            return res.status(404).send('Plans not found');
+          }
+          final_plans = final_plans.filter(plan => plan != undefined);
+
+          const final_plans2 = [...final_plans]
+          final_plans = []
+          for (plan of final_plans2) {
+            let plans_all_regions = await models.PlanRegion.findAll({
+              where: {
+                plan_id: plan
+              }
+            });
+            plans_all_regions = plans_all_regions.map(plan => plan.dataValues.region_id);
+            console.log('plans_all_regions: ', plans_all_regions);
+            if (plans_all_regions.length == regions.length) {
+              final_plans.push(plan);
+            }
+          }
+          if (final_plans.length == 0) {
+            return res.status(404).send('Plans not found');
+          }
+
+          let final_plans_details = [];
+          final_plans_details = await models.Plan.findAll({
+            where: {
+              id: final_plans
+            }
+          });
+          final_plans_details = final_plans_details.map(plan => {
+            return plan.dataValues;
+          });
+          return res.status(200).send(final_plans_details);
+        } catch (e) {
+          console.log('Plans get error: ', e);
+          return res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Plans get error: ', e);
+        return res.status(400).send('Bad request');
+      }
     },
 
   getExplorations:

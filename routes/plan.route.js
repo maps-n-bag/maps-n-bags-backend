@@ -13,5 +13,6 @@ router.get('/explore', auth, controller.getExplorations)
 router.post('/update', auth, controller.updatePlan)
 router.put('/edit', auth, controller.editPlan)
 router.put('/edit/public', auth, controller.togglePlanPublic)
+router.post('/others', auth, controller.getOtherPlans)
 
 module.exports = router
