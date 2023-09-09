@@ -11,5 +11,7 @@ router.delete('/', auth, controller.deletePlan)
 router.get('/explore/other', auth, controller.getExploreOtherRegions)
 router.get('/explore', auth, controller.getExplorations)
 router.post('/update', auth, controller.updatePlan)
+router.put('/edit', auth, controller.editPlan)
+router.put('/edit/public', auth, controller.togglePlanPublic)
 
 module.exports = router

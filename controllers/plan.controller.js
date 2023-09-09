@@ -135,7 +135,72 @@ module.exports = {
         return res.status(400).send('Bad request');
       }
     },
-    
+
+  editPlan:
+    async (req, res) => {
+      
+      try {
+        const plan_id = req.query.plan_id;
+        const { title, description, public, image } = req.body;
+
+        try {
+          const plan = await models.Plan.findByPk(plan_id);
+
+          if (!plan) {
+            return res.status(404).send('Plan not found');
+          }
+
+          plan.title = title;
+          plan.description = description;
+          plan.public = public;
+          plan.image = image;
+
+          await plan.save();
+
+          return res.status(200).send(plan);
+
+        } catch (e) {
+          console.log('Plan edit error: ', e);
+          return res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Plan edit error: ', e);
+        return res.status(400).send('Bad request');
+      }
+
+    },
+
+  togglePlanPublic:
+    async (req, res) => {
+      
+      try {
+        const plan_id = req.query.plan_id;
+
+        try {
+          const plan = await models.Plan.findByPk(plan_id);
+
+          if (!plan) {
+            return res.status(404).send('Plan not found');
+          }
+
+          plan.public = !plan.public;
+
+          await plan.save();
+
+          return res.status(200).send(plan);
+
+        } catch (e) {
+          console.log('Plan public error: ', e);
+          return res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Plan public error: ', e);
+        return res.status(400).send('Bad request');
+      }
+
+    },
 
   getExplorations:
     async (req, res) => {

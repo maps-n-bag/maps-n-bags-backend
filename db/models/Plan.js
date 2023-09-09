@@ -26,7 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       validate : { isUrl : true },
       defaultValue : 'https://picsum.photos/200',
-    }
+    },
+    copy_count : {
+      type : DataTypes.INTEGER,
+      defaultValue : 0,
+    },
   }, {
     underscored: true,
     tableName : 'plan',
