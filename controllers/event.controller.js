@@ -170,45 +170,6 @@ module.exports = {
       }
 
     },
-  getGenerateBlog: async (req, res) => {
-    try {
-      const plan_id = req.query.plan_id;
-      const plan = await models.Plan.findOne({
-        where: {
-          id: plan_id
-        }
-      });
-      if (!plan) {
-        res.status(404).send('plan not found');
-        return;
-      }
-      const start_date = plan.start_date;
-      const end_date = plan.end_date;
-      const noOfDays = (end_date - start_date) / (1000 * 60 * 60 * 24) + 1;
-      console.log('noOfDays: ', noOfDays);
-
-      let result = null;
-      result = [];
-      for (let i = 1; i <= noOfDays; i++) {
-        const eventsList = await calculateEventsListForBlog( plan_id, noOfDays, i);
-        result.push({
-          day: i,
-          events:eventsList});
-      }
-      let blog={
-        plan_id:plan_id,
-        plan_title:plan.title,
-        plan_description:plan.description,
-        plan_start_date:plan.start_date,
-        plan_end_date:plan.end_date,
-        dayWiseEvents:result
-      }
-      res.status(200).send(blog);
-    } catch (e) {
-      console.log('Event get error: ', e);
-      res.status(500).send('Internal server error');
-    }
-  },
   getSuggestion: async (req, res) => {
     try{
         console.log('getSuggestion: ', req.query);
