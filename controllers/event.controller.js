@@ -170,7 +170,131 @@ module.exports = {
       }
 
     },
-  
+  getSuggestion: async (req, res) => {
+    try{
+        console.log('getSuggestion: ', req.query);
+        const plan_id = req.query.plan_id;
+        const event_id = req.query.event_id;
+        if(!plan_id || !event_id){
+          res.status(400).send('Bad request');
+          return;
+        }
+        const plan = await models.Plan.findOne({
+          where: {
+            id: plan_id
+          }
+        });
+        if (!plan) {
+          res.status(404).send('plan not found');
+          return;
+        }
+        let all_events = await models.Event.findAll({
+          where: {
+            plan_id: plan_id
+          }
+        });
+        all_events = all_events.map(event => event.dataValues);
+        let current_event = all_events.find(event => event.id == event_id);
+        if(!current_event){
+          res.status(404).send('event not found');
+          return;
+        }
+        let current_event_place = current_event.place_id;
+        
+
+        let allActivityInPlace= await models.PlaceActivity.findAll({
+          where:{
+            place_id:current_event_place
+          },
+          unique:true,
+          attributes:['activity_id'],
+          group:['activity_id']
+        });
+
+        allActivityInPlace=allActivityInPlace.map(placeActivity=>placeActivity.dataValues);
+
+
+        let allActivityNotInPlan=[];
+        for(let i=0;i<allActivityInPlace.length;i++){
+
+          let activity_id=allActivityInPlace[i].activity_id;
+
+          if(!all_events.find(event=>event.activity_id==activity_id && event.place_id==current_event_place)){
+            const activity= await models.Activity.findByPk(activity_id);
+            allActivityNotInPlan.push(activity.dataValues);
+          }
+        }
+
+        let nearestTenPlace= await models.Distance.findAll({
+          where:{
+            [Op.or]:[
+              {
+                first_place_id:current_event_place
+              },
+              {
+                second_place_id:current_event_place
+              }
+            ]
+          },
+          order:[
+            ['distance','ASC']
+          ],
+          limit:10
+        });
+
+
+        nearestTenPlace=nearestTenPlace.map(distance=>{
+          if(distance.first_place_id==current_event_place){
+            return distance.second_place_id;
+          }
+          else{
+            return distance.first_place_id;
+          }
+        });
+
+        let suggestionPlace;
+
+        for(let i=0;i<nearestTenPlace.length;i++){
+          let activities= await models.PlaceActivity.findAll({
+            where:{
+              place_id:nearestTenPlace[i]
+            },
+            unique:true,
+            attributes:['activity_id'],
+            group:['activity_id']
+          });
+
+          activities=activities.map(activity=>activity.dataValues);
+
+          let activityNotInPlan=[];
+          for(let j=0;j<activities.length;j++){
+            let activity_id=activities[j].activity_id;
+            
+            if(!all_events.find(event=>event.activity_id==activity_id && event.place_id==nearestTenPlace[i])){
+              const activity= await models.Activity.findByPk(activity_id);
+              activityNotInPlan.push(activity.dataValues);
+            }
+          }
+          if(activityNotInPlan.length>0){
+            let place= await models.Place.findByPk(nearestTenPlace[i]);
+            suggestionPlace={
+              place:place.dataValues,
+              activity:activityNotInPlan
+            };
+            break;
+          }
+        }
+        let suggestion={
+          activity:allActivityNotInPlan,
+          place:suggestionPlace
+        }
+        res.status(200).send(suggestion);
+    }
+    catch(e){
+      console.log('Event get error: ', e);
+      res.status(500).send('Internal server error');
+    }
+  }
 }
 
 
