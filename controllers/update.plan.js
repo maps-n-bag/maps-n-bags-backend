@@ -278,7 +278,7 @@ module.exports.getUpdatePlan = async (req, res) => {
             console.log(start_time);
             console.log(activity_time);
             console.log(total_journey_time);
-            currentTimestamp = subtractTime(currentTimestamp, Math.floor(start_time / 60), start_time % 60, 0, 0);
+            currentTimestamp = subtractTime(currentTimestamp, 0, start_time , 0, 0);
 
 
             // update the events
@@ -289,7 +289,7 @@ module.exports.getUpdatePlan = async (req, res) => {
                 let activity = await models.Event.findByPk(plan_activity_for_current_day[j].event_id);
                 activity.day = i;
                 activity.start_time = currentTimestamp;
-                activity.end_time = addTime(currentTimestamp, Math.floor(activity_time / 60), activity_time % 60, 0, 0);
+                activity.end_time = addTime(currentTimestamp, 0, activity_time , 0, 0);
                 if(currentTimestamp.getHours()>=17 && currentTimestamp.getMinutes()>=30){
                     await activity.destroy();
                     break;
@@ -298,12 +298,13 @@ module.exports.getUpdatePlan = async (req, res) => {
 
 
                 // update the current timestamp
-                currentTimestamp = addTime(currentTimestamp, Math.floor(activity_time / 60), activity_time % 60, 0, 0);
+                currentTimestamp = addTime(currentTimestamp, 0, activity_time, 0, 0);
                 if (j != plan_activity_for_current_day.length - 1 && plan_activity_for_current_day[j].place_id != plan_activity_for_current_day[j + 1].place_id) {
                     let distance = distances.filter((distance) => {
                         return (distance.first_place_id == plan_activity_for_current_day[j].place_id && distance.second_place_id == plan_activity_for_current_day[j + 1].place_id) ||
                             (distance.first_place_id == plan_activity_for_current_day[j + 1].place_id && distance.second_place_id == plan_activity_for_current_day[j].place_id);
                     });
+                    currentTimestamp = addTime(currentTimestamp, 0, distance[0].est_time, 0, 0);
                 }
             }
         }
@@ -317,28 +318,14 @@ module.exports.getUpdatePlan = async (req, res) => {
 }
 
 const subtractTime = (timestamp, hours, minutes, seconds, milliseconds) => {
-    timestamp.setHours(timestamp.getHours() - hours);
-    const totalMinutes = timestamp.getMinutes() - minutes;
-    if (totalMinutes < 0) {
-        timestamp.setHours(timestamp.getHours() - 1);
-        timestamp.setMinutes(60 + totalMinutes);
-    }
-    else {
-        timestamp.setMinutes(totalMinutes);
-    }
-    return timestamp;
+    let timeMiliseconds = (hours * 60 * 60 + minutes * 60 + seconds) * 1000 + milliseconds;
+    const temp=new Date(timestamp.getTime() - timeMiliseconds);
+    return temp;
 }
 const addTime = (timestamp, hours, minutes, seconds, milliseconds) => {
-    timestamp.setHours(timestamp.getHours() + hours);
-    const totalMinutes = timestamp.getMinutes() + minutes;
-    if (totalMinutes > 60) {
-        timestamp.setHours(timestamp.getHours() + 1);
-        timestamp.setMinutes(totalMinutes - 60);
-    }
-    else {
-        timestamp.setMinutes(totalMinutes);
-    }
-    return timestamp;
+    let timeMiliseconds = (hours * 60 * 60 + minutes * 60 + seconds) * 1000 + milliseconds;
+    const temp=new Date(timestamp.getTime() + timeMiliseconds);
+    return temp;
 }
 
 const getNearbyPlaces = async (fromPLaceId, allPlaces, distances) => {
