@@ -234,9 +234,9 @@ module.exports = {
               return res.status(404).send('Plans not found');
             }
 
-            let previous_plans = final_plans.length == 0 ? [] : [...final_plans];
+            let previous_plans = (final_plans.length == 0 ? [] : [...final_plans]);
             final_plans = plans_id.map(plan_id => {
-              if (final_plans.length == 0) {
+              if (previous_plans.length == 0) {
                 return plan_id;
               }
               if (previous_plans.includes(plan_id)) {

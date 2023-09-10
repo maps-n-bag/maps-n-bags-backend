@@ -284,9 +284,14 @@ module.exports = {
             break;
           }
         }
+        const image= await models.PlaceImage.findOne({
+          where:{
+            place_id:suggestionPlace.place.id
+          }
+        });
         let suggestion={
-          activity:allActivityNotInPlan,
-          place:suggestionPlace
+          activities:allActivityNotInPlan,
+          place: {...suggestionPlace.place,image:image.link, activities:suggestionPlace.activity}
         }
         res.status(200).send(suggestion);
     }
@@ -385,6 +390,7 @@ async function calculateEventsList(res, plan_id, noOfDays, day) {
         start_time: currentEvent.start_time,
         end_time: currentEvent.end_time,
         place_id: currentEvent.place_id,
+        activity_id: currentEvent.activity_id,
         activity: activities[currentEvent.activity_id - 1].title,
       }
     });

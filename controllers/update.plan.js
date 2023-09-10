@@ -26,6 +26,15 @@ module.exports.getUpdatePlan = async (req, res) => {
                     }
                 })
                 if (region) {
+                    const planRegionCheck = await models.PlanRegion.findOne({
+                        where: {
+                            plan_id: plan_id,
+                            region_id: otherRegions[i]
+                        }
+                    })
+                    if (planRegionCheck) {
+                        continue;
+                    }
                     await models.PlanRegion.create({
                         plan_id: plan_id,
                         region_id: otherRegions[i]
