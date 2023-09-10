@@ -15,5 +15,6 @@ router.put('/edit', auth, controller.editPlan)
 router.put('/edit/public', auth, controller.togglePlanPublic)
 router.post('/others', auth, controller.getOtherPlans)
 router.post('/copy', auth, controller.copyPlan)
+router.get('/generateBlog', auth, controller.getGenerateBlog)
 
 module.exports = router
