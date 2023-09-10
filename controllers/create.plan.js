@@ -85,9 +85,22 @@ module.exports.createPlan = async(body)=>{
         currentPlaceID = nearbyPlaces;
     }
     console.log(plan_serialized);
+
+
+    let representative_place_id_of_regions = await models.Region.findAll({
+        where: {
+            id: regions
+        },
+        attributes: ['representative_place_id']
+    });
+
+    representative_place_id_of_regions = representative_place_id_of_regions.map((place) => {
+        return place.dataValues.representative_place_id;
+    });
+
     let plan_image=await models.PlaceImage.findAll({
         where:{
-            place_id:regions
+            place_id:representative_place_id_of_regions
         },
         attributes: ['link']
     });
@@ -103,7 +116,7 @@ module.exports.createPlan = async(body)=>{
         return image.dataValues.link;
     });
     plan_image=plan_image[0];
-    let plan_title = await models.Place.findAll({
+    let plan_title = await models.Region.findAll({
         where:{
             id:regions
         },
