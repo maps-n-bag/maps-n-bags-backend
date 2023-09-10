@@ -285,8 +285,8 @@ module.exports = {
           }
         }
         let suggestion={
-          activity:allActivityNotInPlan,
-          place:suggestionPlace
+          activities:allActivityNotInPlan,
+          place: {...suggestionPlace.place, activities:suggestionPlace.activity}
         }
         res.status(200).send(suggestion);
     }
