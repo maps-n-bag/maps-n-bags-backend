@@ -284,9 +284,14 @@ module.exports = {
             break;
           }
         }
+        const image= await models.PlaceImage.findOne({
+          where:{
+            place_id:suggestionPlace.place.id
+          }
+        });
         let suggestion={
           activities:allActivityNotInPlan,
-          place: {...suggestionPlace.place, activities:suggestionPlace.activity}
+          place: {...suggestionPlace.place,image:image.link, activities:suggestionPlace.activity}
         }
         res.status(200).send(suggestion);
     }
