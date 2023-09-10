@@ -290,6 +290,10 @@ module.exports.getUpdatePlan = async (req, res) => {
                 activity.day = i;
                 activity.start_time = currentTimestamp;
                 activity.end_time = addTime(currentTimestamp, Math.floor(activity_time / 60), activity_time % 60, 0, 0);
+                if(currentTimestamp.getHours()>=17 && currentTimestamp.getMinutes()>=30){
+                    await activity.destroy();
+                    break;
+                }
                 await activity.save();
 
 

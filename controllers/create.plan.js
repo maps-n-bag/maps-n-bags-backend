@@ -118,7 +118,7 @@ module.exports.createPlan = async(body)=>{
         title:plan_title,
         start_date:body.start_date,
         end_date:body.end_date,
-        description:'Very Fun Trip',
+        description:'',
         public:false,
         image:plan_image,
         user_id:body.user_id
@@ -173,6 +173,7 @@ module.exports.createPlan = async(body)=>{
         if(total_journey_time>2.5*60){
             start_time=total_journey_time-2.5*60;
         }
+
         let end_time = 0;
         if(start_time>1.5*60){
             end_time = start_time-1.5*60;
@@ -188,6 +189,9 @@ module.exports.createPlan = async(body)=>{
         console.log(total_journey_time);
         currentTimestamp = subtractTime(currentTimestamp,Math.floor(start_time/60),start_time%60,0,0);
         for(let j=0;j<plan_activity_for_current_day.length;j++){
+            if(currentTimestamp.getHours()>=17 && currentTimestamp.getMinutes()>=30){
+                continue;
+            }
             await models.Event.create({
                 plan_id:plan.id,
                 activity_id:plan_activity_for_current_day[j].activity_id,
