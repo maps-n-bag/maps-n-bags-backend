@@ -12,19 +12,19 @@ module.exports = {
           const place = await models.Place.findByPk(place_id);
 
           if (!place) {
-            res.status(404).send('Place not found');
+            return res.status(404).send('Place not found');
           }
-          else {
 
-            const placeImages = await models.PlaceImage.findAll({
-              where: {
-                place_id: place_id
-              }
-            });
+          const region = await models.Region.findByPk(place.region_id);
 
-            const response = { ...place.dataValues, images: placeImages.map(image => image.link) };
-            res.status(200).send(response);
-          }
+          const placeImages = await models.PlaceImage.findAll({
+            where: {
+              place_id: place_id
+            }
+          });
+
+          const response = { ...place.dataValues, region_name: region.title, images: placeImages.map(image => image.link) };
+          return res.status(200).send(response);
 
         } catch (e) {
           console.log('Place get error: ', e);
