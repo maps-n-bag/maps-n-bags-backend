@@ -84,6 +84,46 @@ module.exports = {
 
     },
 
+  addPlaceReview:
+    async (req, res) => {
+
+      try {
+        const place_id = req.query.place_id;
+        const { user_id, comment, rating, images } = req.body;
+
+        try {
+          const place = await models.Place.findByPk(place_id);
+          if (!place)
+            return res.status(404).send('Place not found');
+
+          const user = await models.User.findByPk(user_id);
+
+          const review = await models.Review.create({
+            username: user.username,
+            place_id: place_id,
+            comment: comment,
+          });
+
+          images.forEach(async (image) => {
+            await models.ReviewImage.create({
+              review_id: review.id,
+              link: image
+            });
+          });
+
+          return res.status(200).send({ ...review.dataValues, images: images });
+
+        } catch (e) {
+          console.log('Place review get error: ', e);
+          res.status(500).send('Internal server error');
+        }
+
+      } catch (e) {
+        console.log('Place review get error: ', e);
+        res.status(400).send('Bad request');
+      }
+    },
+
   getTags:
     async (req, res) => {
 
