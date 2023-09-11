@@ -121,14 +121,44 @@ module.exports.getUpdatePlan = async (req, res) => {
         const start_date = new Date(plan.start_date);
         const end_date = new Date(plan.start_date);
 
-        // update the plan with the new number of days
-        const prevNumberOfDays = (plan.end_date - plan.start_date) / (1000 * 60 * 60 * 24) + 1;
-        console.log('prevNumberOfDays: ', prevNumberOfDays, ' number_of_days: ', number_of_days);
-        if (prevNumberOfDays != number_of_days) {
-            end_date.setDate(end_date.getDate() + number_of_days - 1);
-            plan.end_date = end_date;
-            await plan.save();
-        }
+        
+        
+        // update the plan with the new number of days and names
+        
+        region_for_names = await models.PlanRegion.findAll({
+            where: {
+                plan_id: plan.id
+            },
+            attributes: ['region_id']
+        });
+        region_for_names = region_for_names.map((region) => {
+            return region.dataValues.region_id;
+        });
+        let representative_place_id_of_regions = await models.Region.findAll({
+            where: {
+                id: region_for_names
+            },
+            attributes: ['representative_place_id']
+        });
+    
+        representative_place_id_of_regions = representative_place_id_of_regions.map((place) => {
+            return place.dataValues.representative_place_id;
+        });
+
+        let plan_title = await models.Region.findAll({
+            where:{
+                id:region_for_names
+            },
+            attributes: ['title']
+        });
+        plan_title=plan_title.map((title)=>{
+            return title.dataValues.title;
+        });
+        plan_title=plan_title.join(' ')+' '+number_of_days+' Days tour';
+        end_date.setDate(end_date.getDate() + number_of_days - 1);
+        plan.end_date = end_date;
+        plan.title=plan_title;
+        await plan.save();
 
 
 
@@ -287,7 +317,7 @@ module.exports.getUpdatePlan = async (req, res) => {
             console.log(start_time);
             console.log(activity_time);
             console.log(total_journey_time);
-            currentTimestamp = subtractTime(currentTimestamp, 0, start_time , 0, 0);
+            currentTimestamp = subtractTime(currentTimestamp, 0, start_time, 0, 0);
 
 
             // update the events
@@ -298,8 +328,8 @@ module.exports.getUpdatePlan = async (req, res) => {
                 let activity = await models.Event.findByPk(plan_activity_for_current_day[j].event_id);
                 activity.day = i;
                 activity.start_time = currentTimestamp;
-                activity.end_time = addTime(currentTimestamp, 0, activity_time , 0, 0);
-                if(currentTimestamp.getHours()>=17 && currentTimestamp.getMinutes()>=30){
+                activity.end_time = addTime(currentTimestamp, 0, activity_time, 0, 0);
+                if (currentTimestamp.getHours() >= 17 && currentTimestamp.getMinutes() >= 30) {
                     await activity.destroy();
                     break;
                 }
@@ -328,12 +358,12 @@ module.exports.getUpdatePlan = async (req, res) => {
 
 const subtractTime = (timestamp, hours, minutes, seconds, milliseconds) => {
     let timeMiliseconds = (hours * 60 * 60 + minutes * 60 + seconds) * 1000 + milliseconds;
-    const temp=new Date(timestamp.getTime() - timeMiliseconds);
+    const temp = new Date(timestamp.getTime() - timeMiliseconds);
     return temp;
 }
 const addTime = (timestamp, hours, minutes, seconds, milliseconds) => {
     let timeMiliseconds = (hours * 60 * 60 + minutes * 60 + seconds) * 1000 + milliseconds;
-    const temp=new Date(timestamp.getTime() + timeMiliseconds);
+    const temp = new Date(timestamp.getTime() + timeMiliseconds);
     return temp;
 }
 
