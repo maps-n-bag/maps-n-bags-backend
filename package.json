@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node db/sync.js && node app.js",
+    "start": "node app.js",
+    "db:sync": "node db/sync.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],
@@ -22,7 +23,8 @@
     "path": "^0.12.7",
     "pg": "^8.11.2",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.32.1"
+    "sequelize": "^6.32.1",
+    "serverless-http": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7",
