@@ -2,6 +2,7 @@
   functions = "netlify/functions"
 
 [functions]
+  node_bundler = "nft"
   included_files = ["db/**", "controllers/**", "routes/**", "middleware/**", "app.js", "document.md"]
   # Uncomment the line below to automatically sync the database schema on each deploy.
   # Warning: running this on every deploy can cause issues with concurrent deploys.

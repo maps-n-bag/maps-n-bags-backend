@@ -208,10 +208,23 @@ module.exports = {
         const regions = req.body.regions;
         const user_id = req.body.user_id;
 
-        if (regions && regions.length == 0) {
-          return res.status(400).send('Bad request');
-        }
         try {
+          // No regions filter: return all public plans (excluding the requesting user's)
+          if (!regions || regions.length == 0) {
+            const whereClause = { public: true };
+            if (user_id) {
+              whereClause.user_id = { [models.Sequelize.Op.ne]: user_id };
+            }
+            let all_plans = await models.Plan.findAll({
+              where: whereClause,
+              order: [['copy_count', 'DESC']]
+            });
+            if (!all_plans || all_plans.length == 0) {
+              return res.status(404).send('Plans not found');
+            }
+            return res.status(200).send(all_plans.map(plan => plan.dataValues));
+          }
+
           let final_plans = [];
           for (region of regions) {
             let plans = await models.PlanRegion.findAll({
