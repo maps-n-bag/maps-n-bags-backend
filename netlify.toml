@@ -1,0 +1,15 @@
+[build]
+  functions = "netlify/functions"
+  # Uncomment the line below to automatically sync the database schema on each deploy.
+  # Warning: running this on every deploy can cause issues with concurrent deploys.
+  # Prefer running `npm run db:sync` manually as a one-off command instead.
+  # command = "npm run db:sync"
+
+[build.environment]
+  NODE_VERSION = "24"
+  SECRETS_SCAN_OMIT_KEYS = "NODE_ENV"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const fs = require("fs")
+const path = require("path")
 const hljs = require("highlight.js")
 const Markdown = require("markdown-it")
 
@@ -27,8 +28,10 @@ const publicRoute = require("./routes/public.route")
 const router = express.Router()
 app.use(router)
 
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGIN || '*'
+}))
 app.use(express.json())
-app.use(cors())
 app.use(express.urlencoded({extended: false}))
 
 //-------------------------------------------------------------
@@ -38,7 +41,7 @@ router.get("/", (req, res) => {
 })
 
 router.get("/api", (req, res) => {
-  fs.readFile("./document.md", "utf8", (err, data) => {
+  fs.readFile(path.join(__dirname, "document.md"), "utf8", (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).send("Error");
@@ -57,4 +60,8 @@ app.use("/api/public", publicRoute)
 //-------------------------------------------------------------
 
 const port = process.env.PORT || 8888
-app.listen(port, console.log(`Server started on port ${port}`))
+if (require.main === module) {
+  app.listen(port, () => console.log(`Server started on port ${port}`))
+}
+
+module.exports = app
