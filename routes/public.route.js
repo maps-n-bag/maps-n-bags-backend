@@ -9,5 +9,7 @@ router.post('/place/review', controller.addPlaceReview)
 router.get('/tags', controller.getTags)
 router.get('/regions', controller.getRegions)
 router.get('/nearby/restaurant', controller.getNearbyRestaurant)
+router.get('/blogs', controller.getBlogs)
+router.get('/blog', controller.getBlog)
 
 module.exports = router
