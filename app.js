@@ -24,6 +24,7 @@ const user = require("./routes/user.route");
 const plan = require("./routes/plan.route")
 const event = require("./routes/event.route")
 const publicRoute = require("./routes/public.route")
+const uploadRoute = require("./routes/upload.route")
 
 const router = express.Router()
 app.use(router)
@@ -56,6 +57,7 @@ app.use("/api/user", user)
 app.use("/api/plan", plan)
 app.use("/api/event", event)
 app.use("/api/public", publicRoute)
+app.use("/api/upload", uploadRoute)
 
 //-------------------------------------------------------------
 
